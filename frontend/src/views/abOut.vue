@@ -102,6 +102,9 @@ import navBar1 from '../components/navBar1.vue';
         let result =await axios.get('http://localhost:5000/userscount')
         console.log(result)
         this.userscount=result.data[0].count
+        let result1=await axios.get('http://localhost:5000/postcount')
+        console.log(result1.data[0].count)
+        this.postcount=result1.data[0].count
      }
    }
    </script>
