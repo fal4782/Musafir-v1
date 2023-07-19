@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="parent-div">
 
     <div class="form-container">
@@ -73,60 +72,8 @@
 
       <button @click="submit">SUBMIT</button>
 
-=======
-  <div>
-    <h1>Post form page</h1>
-    <!-- <form action="/upload" method="post" enctype="multipart/form-data">  -->
-    <label for="">Place</label>
-    <input type="text" v-model="place" placeholder="Enter a Place">
-    <label for="">City</label>
-    <input type="text" v-model="city" placeholder="Enter a City">
-    <label for="">State</label>
-    <input type="text" v-model="state" placeholder="Enter a State">
-    <label for="">Description</label>
-    <input type="text" v-model="description" placeholder="Enter Description">
-    <label for="">Category</label>
-    <select id="category" v-model="category">
-      <option disabled selected value="">Choose Category</option>
-      <option value="Historical">Historical</option>
-      <option value="Gardens">Gardens</option>
-      <option value="Worship Places">Worship Places</option>
-      <option value="Adventure">Adventure</option>
-      <option value="Food & Beverages">Food & Beverages</option>
-      <option value="Others">Others</option>
-    </select>
-    <label for="">Value for money</label>
-    <select id="value_for_money" v-model="value_for_money">
-      <option disabled selected value="">Add your Rating</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-    <label for="">Safety & Security</label>
-    <select v-model="safety">
-      <option disabled selected value="">Add your Rating</option>
-      <option value=1>1</option>
-      <option value=2>2</option>
-      <option value=3>3</option>
-      <option value=4>4</option>
-      <option value=5>5</option>
-    </select>
-    <label for="">Overall Experience</label>
-    <select v-model="overall_exp">
-      <option disabled selected value="">Add your Rating</option>
-      <option value=1>1</option>
-      <option value=2>2</option>
-      <option value=3>3</option>
-      <option value=4>4</option>
-      <option value=5>5</option>
-    </select>
-    <input type="file" name="avatar" @change="handleFileChange" multiple>
-    <button @click="submit">Submit</button>
-    <!-- <img :src="require('../../../backend/images/' + path)" alt=""> -->
-    <!-- </form> -->
-     <div>
+    </div>
+    <div>
       <button @click="getPost">Get Post</button>
      <div v-for="post in posts" :key='post.post_id'>
       {{ post }}
@@ -140,7 +87,6 @@
         </div>
       </div>
       </div>
->>>>>>> origin/main
     </div>
   </div>
 </template>
