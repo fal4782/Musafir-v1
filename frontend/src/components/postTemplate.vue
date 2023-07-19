@@ -100,8 +100,8 @@ export default {
 <style scoped>
 
 .post-container{
-  width: 80vw;
-  height: 80vh;
+  width: 90vw;
+  height: 90vh;
   background-color: #161616;
   display: flex;
   border-radius: 15px;
