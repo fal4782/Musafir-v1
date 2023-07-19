@@ -51,16 +51,32 @@
     <button @click="submit">Submit</button>
     <!-- <img :src="require('../../../backend/images/' + path)" alt=""> -->
     <!-- </form> -->
+     <div>
+      <button @click="getPost">Get Post</button>
+     <div v-for="post in posts" :key='post.post_id'>
+      {{ post }}
+      hiiiii{{ this.images }}
+      <div v-for="img in images" :key="img.id">
+        <div v-if="img.id==post.post_id">
+          <img :src="require(`../assets/${img.img}`)" alt="">
+          
+          <!-- <img :src="originalImages" alt=""> -->
+          {{img.path}}
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
+// import {} from ''
 export default{
     name:'postForm',
     data(){
         return{
-            path: "1689655282366--travel-bag.png",
+            path: "../../../backend/",
             city:'',
             state:'',
             place:'',
@@ -69,6 +85,8 @@ export default{
             value_for_money:'',
             safety:'',
             overall_exp:'',
+            posts:[],
+            images:[]
         }
     },
     methods:{
@@ -76,7 +94,10 @@ export default{
     this.image= event.target.files;
     console.log('dvhgyu',this.image)
   },
-
+    getImage(url)
+    {
+      return require(url);
+    },
 
     async submit() {
   const formData = new FormData();
@@ -110,6 +131,48 @@ export default{
     // Handle the error
   }
 },
+async getPost(){
+  let result=await axios.get('http://localhost:5000/getpost')
+  console.log("Result",result.data[0])
+  this.posts=result.data
+  // for(let i=0;i<this.posts.length;i++){
+  //   console.log(result.data);
+  //   let imgPaths=result.data[i]?.string_agg;
+  //   let images=[]
+  //   // for (let j = 0; j < imgPaths.length; j++) {
+  //   //     images.push({ id: result.data[i].post_id, path:imgPaths[j] });
+  //   //   }
+  //   images.push({ id: result.data[i].post_id, path:imgPaths });
+  //   this.images.push(...images)
+  //   console.log(this.images);
+  // }
+  for (let i = 0; i < this.posts.length; i++) {
+    let imgString = result.data[i].string_agg;
+    console.log("1",imgString)
+    let images = []
+    if (!imgString.includes(",")) {
+      images.push({
+        id: result.data[i].post_id,
+        img: imgString
+      })
+      console.log("2",images)
+    } 
+    else {
+      let imgPaths = imgString.split(',');
+
+      for (let j = 0; j < imgPaths.length; j++) {
+        images.push({
+          id: result.data[i].post_id,
+          img: imgPaths[j]
+        });
+      }
+      
+    }
+    this.images.push(...images)
+  }
+console.log("image details",this.images)
+}
+
     }
 }
 </script>
