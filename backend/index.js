@@ -35,7 +35,7 @@ client.connect((err) => {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     //console.log(file)
-    cb(null, './images')
+    cb(null, '../frontend/src/assets')
   },
   filename: function (req, file, cb) {
     //const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -79,7 +79,7 @@ app.post('/upload', upload, function (req, res, next) {
                    for(let i=0;i<req.files.length;i++){
                     //console.log(req.files[i].path)
                     client.query(`insert into images(img_path,post_id)
-                    values('${req.files[i].path}',${pid}) returning image_id`,(err,result)=>{
+                    values('${req.files[i].filename}',${pid}) returning image_id`,(err,result)=>{
                       if(!err){
                         console.log(result.rows[0].image_id)
                       }
@@ -178,5 +178,38 @@ app.get('/userscount',(req,res)=>{
         }
     })
 })
+
+
+//posts count
+app.get('/postcount',(req,res)=>{
+  client.query(`select count(*) from posts`,(err,result)=>{
+    if(!err){
+      res.status(201).send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
+
+
+//getPost
+app.get('/getpost', (req, res) => {
+  client.query(`SELECT p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name, STRING_AGG(i.img_path, ',')
+                FROM posts p
+                LEFT JOIN images i ON p.post_id = i.post_id
+                JOIN users u ON u.id = p.user_id
+                GROUP BY p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name`,
+    (err, result) => {
+      if (!err) {
+        res.send(result.rows);
+      } else {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+});
+
+
 
 app.use(authenticate);
