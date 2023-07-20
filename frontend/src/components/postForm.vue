@@ -107,7 +107,7 @@ export default{
             value_for_money:'',
             safety:'',
             overall_exp:'',
-            username:'Jane Doe',
+            username:'we are crazy',
             posts:[],
             images:[]
         }
