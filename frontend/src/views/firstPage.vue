@@ -77,7 +77,11 @@
     </a>
   </div>
 </div>
-
+<div class="overlay-button" @click="scrollToTop">
+          <button>
+            <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
 <FooTer></FooTer>
 
     <routerView />
@@ -150,7 +154,12 @@ export default {
     redirect(){
       this.$router.push({name:'loGin'})
     },
-    
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    },
   }
 } 
 </script>
@@ -384,5 +393,28 @@ a {
   color: inherit;
 }
 
+.overlay-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.overlay-button button {
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-size: 25px;
+  line-height: 1;
+  outline: none;
+}
 
 </style>

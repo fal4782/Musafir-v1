@@ -74,11 +74,11 @@ export default {
   data() {
     return {
       carouselImages: [{
-          id: 1,
+          // id: 1,
           src: 'https://i.ibb.co/TMnPS5w/tajmahal.jpg'
         },
         {
-          id: 2,
+          // id: 2,
           src: 'https://i.ibb.co/NSmF12D/forest-1866544-1280.jpg',
         },
       ],
