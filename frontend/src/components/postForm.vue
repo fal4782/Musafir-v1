@@ -1,25 +1,29 @@
 <template>
-  <div class="parent-div">
+  <div class="popup" @click="closePopup">
 
-    <div class="form-container">
+    <!-- To prevent the form from closing when you click inside it, 
+    add an event listener (.stop) and stop the event propagation. 
+    This will stop the click event from bubbling up to the .popup element and triggering the closePopup method. -->
+
+    <div class="form-container" @click.stop>
 
       <h1>Create Post</h1>
       <div class="divider"></div>
-      
+
       <div class="profile">
         <img src="https://i.ibb.co/RyhKcYX/Falguni-avatar.png" alt="Profile Icon">
         <div class="username-category">
-        <p class="username">{{ username }}</p>
-        <select id="category" v-model="category">
-          <option id="default" hidden selected value="">Choose Category</option>
-          <option value="Historical">Historical</option>
-          <option value="Gardens">Gardens</option>
-          <option value="Worship Places">Worship Places</option>
-          <option value="Adventure">Adventure</option>
-          <option value="Food & Beverages">Food & Beverages</option>
-          <option value="Others">Others</option>
-        </select>
-      </div>
+          <p class="username">{{ username }}</p>
+          <select id="category" v-model="category">
+            <option id="default" hidden selected value="">Choose Category</option>
+            <option value="Historical">Historical</option>
+            <option value="Gardens">Gardens</option>
+            <option value="Worship Places">Worship Places</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Food & Beverages">Food & Beverages</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
       </div>
 
       <textarea v-model="description" placeholder="Been exploring? Share your experience now!"></textarea>
@@ -31,10 +35,10 @@
       </div>
 
       <label for="upload-images" class="upload-btn">
-  
-  Add images to your post<i class="fas fa-image"></i>
-</label>
-<input type="file" id="upload-images" name="avatar" @change="handleFileChange" multiple style="display: none;">
+
+        Add images to your post<i class="fas fa-image"></i>
+      </label>
+      <input type="file" id="upload-images" name="avatar" @change="handleFileChange" multiple style="display: none;">
 
 
 
@@ -50,7 +54,7 @@
         </select>
 
         <!-- <label for="">Safety & Security</label> -->
-        <select id ="safety" v-model="safety">
+        <select id="safety" v-model="safety">
           <option id="default" hidden selected value="">Safety & Security</option>
           <option value=1>1</option>
           <option value=2>2</option>
@@ -71,23 +75,22 @@
       </div>
 
       <button @click="submit">SUBMIT</button>
-
     </div>
     <!-- <div>
       <button @click="getPost">Get Post</button>
-     <div v-for="post in posts" :key='post.post_id'>
-      {{ post }}
-      hiiiii{{ this.images }}
-      <div v-for="img in images" :key="img.id">
-        <div v-if="img.id==post.post_id">
-          <img :src="require(`../assets/${img.img}`)" alt="">
-          
-          <img :src="originalImages" alt=""> 
-          {{img.path}}
-        </div>
-      </div>
-      </div>
-    </div> -->
+      <div v-for="post in posts" :key='post.post_id'>
+        {{ post }}
+        hiiiii{{ this.images }}
+        <div v-for="img in images" :key="img.id">
+          <div v-if="img.id==post.post_id">
+            <img :src="require(`../assets/${img.img}`)" alt="">
+
+            <img :src="originalImages" alt=""> -->
+            <!-- {{img.path}} -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -107,9 +110,9 @@ export default{
             value_for_money:'',
             safety:'',
             overall_exp:'',
-            username:'we are crazy',
-            // posts:[],
-            // images:[]
+            username:'Jane Doe',
+            posts:[],
+            images:[]
         }
     },
     methods:{
@@ -121,6 +124,10 @@ export default{
     {
       return require(url);
     },
+    closePopup() {
+      this.$emit("close");
+    },
+    
 
     async submit() {
   const formData = new FormData();
@@ -192,15 +199,27 @@ export default{
 
 <style scoped>
 
-.parent-div {
+/* .parent-div {
   background-image: url('https://i.ibb.co/dmr3yCD/seemless-blackbg.jpg'); 
   background-repeat: repeat;
   background-size: 30%;
-  /* background-color: beige; */
   min-height: 100vh; 
   display: flex;
   justify-content: center; 
   align-items: center;
+} */
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
 .form-container {
@@ -386,5 +405,6 @@ button:hover {
   /* color: white; */
   transform: scale(1.05);
 }
+
 
 </style>
