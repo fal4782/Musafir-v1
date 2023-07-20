@@ -1,62 +1,71 @@
 <template>
+  <div v-for="post in posts" :key="post.post_id">
+    <div class="post-container">
 
-  <div class="post-container">
+      <div class="left-div">
+        <section class="carousel-container">
+          <div class="slider-wrapper">
+            <div class="slider">
+              <div v-for="(image, index) in carouselImages" :key="index" >
+                <div v-if="image.id==post.post_id">
+                  <img :id="`slide-${index + 1}-${post.post_id}`" :src="require(`../assets/${image.img}`)" />
+                </div>
+                <!-- <div class="slider-nav">
+                    <a :href="`#slide-${index + 1}`"></a>
+                     <a :href="`#slide-${index + 1}`"></a> -->
+                    <!-- <template v-if = "index == carouselImages.length - 1? index = 0:index"> </template> 
+                  </div> -->
+              </div>
+              <div class="slider-nav">
+              <a v-for="(image, index) in getImagesForPost(post.post_id)" :key="index" :href="`#slide-${index + 1}-${post.post_id}`"></a>
+            </div>
+            </div>
+            
+          </div>
+        </section>
+      </div>
 
-    <div class="left-div">
-      <section class="carousel-container">
-        <div class="slider-wrapper">
-          <div class="slider">
-            <img v-for="(image, index) in carouselImages" :key="index" :id="`slide-${index + 1}`" :src="image.src" />
-          </div>
-          <div class="slider-nav">
-            <a v-for="(image, index) in carouselImages" :key="index" :href="`#slide-${index + 1}`"></a>
-          </div>
+      <div class="right-div">
+        <p class="user-name"> {{ post.name }}</p>
+
+        <div class="location">
+          <i class="fa-solid fa-location-dot"></i>
+          <p class="location-name">{{ post.place }} || {{ post.city }} || {{ post.state_name }}</p>
         </div>
-      </section>
+
+        <div class="divider"></div>
+
+        <p class="content">{{ post.description}}</p>
+
+        <!-- Star rating for value for money -->
+        <div class="rating">
+          <p class="rating-title">Value for Money:</p>
+          <span v-for="star in maxStars" :key="star">
+            <i class="fa-solid"
+              :class="{ 'fa-star': star <= post.value_for_money, 'fa-star-empty': star > post.value_for_money }"></i>
+          </span>
+        </div>
+
+        <!-- Star rating for safety & security-->
+        <div class="rating">
+          <p class="rating-title">Safety & Security:</p>
+          <span v-for="star in maxStars" :key="star">
+            <i class="fa-solid" :class="{ 'fa-star': star <= post.safety, 'fa-star-empty': star > post.safety }"></i>
+          </span>
+        </div>
+
+        <!-- Star rating for overall exp -->
+        <div class="rating">
+          <p class="rating-title">Overall Experience:</p>
+          <span v-for="star in maxStars" :key="star">
+            <i class="fa-solid"
+              :class="{ 'fa-star': star <= post.overall_exp, 'fa-star-empty': star > post.overall_exp }"></i>
+          </span>
+        </div>
+
+      </div>
     </div>
 
-    <div class="right-div">
-      <p class="user-name"> {{ userName }}</p>
-
-      <div class="location">
-        <i class="fa-solid fa-location-dot"></i>
-        <p class="location-name">{{ placeName }} || {{ cityName }} || {{ stateName }}</p>
-      </div>
-
-      <div class="divider"></div>
-
-      <p class="content">{{ postContent }}</p>
-
-      <!-- Star rating for value for money -->
-      <div class="rating">
-        <p class="rating-title">Value for Money:</p>
-        <span v-for="star in maxStars" :key="star">
-          <i class="fa-solid"
-            :class="{ 'fa-star': star <= affordabilityRating, 'fa-star-empty': star > affordabilityRating }"></i>
-        </span>
-      </div>
-
-      <!-- Star rating for safety & security-->
-      <div class="rating">
-        <p class="rating-title">Safety & Security:</p>
-        <span v-for="star in maxStars" :key="star">
-          <i class="fa-solid" :class="{ 'fa-star': star <= safetyRating, 'fa-star-empty': star > safetyRating }"></i>
-        </span>
-      </div>
-
-      <!-- Star rating for overall exp -->
-      <div class="rating">
-        <p class="rating-title">Overall Experience:</p>
-        <span v-for="star in maxStars" :key="star">
-          <i class="fa-solid"
-            :class="{ 'fa-star': star <= overallExpRating, 'fa-star-empty': star > overallExpRating }"></i>
-        </span>
-      </div>
-
-
-
-      <!-- <div class="divider"></div> -->
-    </div>
   </div>
 
 
@@ -64,36 +73,72 @@
 
 
 <script>
-
-
-
+import axios from "axios"
 export default {
   components: {
 
   },
   data() {
     return {
-      carouselImages: [{
-          id: 1,
-          src: 'https://i.ibb.co/TMnPS5w/tajmahal.jpg'
-        },
-        {
-          id: 2,
-          src: 'https://i.ibb.co/NSmF12D/forest-1866544-1280.jpg',
-        },
-      ],
-      userName: 'John Doe',
-      placeName: 'Akshardham Temple',
-      cityName: 'Gandhinagar',
-      stateName: 'Gujrat',
-      postContent: "'Akshardham' literally means the divine abode of God. It is an eternal place for one to offer devotion and experience everlasting peace. Swaminarayan Akshardham at Gandhinagar is a mandir – a Hindu house of worship, a dwelling place for God, and a spiritual and cultural campus dedicated to devotion, education and unification. The spiritual premise of Akshardham is that each soul is potentially divine. Whether we are serving the family, our neighbors, the country, or people all around the world, each act of kindness can help one move towards divinity. Each prayer is an endeavor in self-improvement and a step closer to God.",
-      affordabilityRating: 2,
-      safetyRating: 4,
-      overallExpRating: 5,
-      maxStars: 5,
+      // carouselImages: [{
+      //     id: 1,
+      //     src: 'https://i.ibb.co/TMnPS5w/tajmahal.jpg'
+      //   },
+      //   {
+      //     id: 2,
+      //     src: 'https://i.ibb.co/NSmF12D/forest-1866544-1280.jpg',
+      //   },
+      // ],
+      // userName: 'John Doe',
+      // placeName: 'Akshardham Temple',
+      // cityName: 'Gandhinagar',
+      // stateName: 'Gujrat',
+      // postContent: "'Akshardham' literally means the divine abode of God. It is an eternal place for one to offer devotion and experience everlasting peace. Swaminarayan Akshardham at Gandhinagar is a mandir – a Hindu house of worship, a dwelling place for God, and a spiritual and cultural campus dedicated to devotion, education and unification. The spiritual premise of Akshardham is that each soul is potentially divine. Whether we are serving the family, our neighbors, the country, or people all around the world, each act of kindness can help one move towards divinity. Each prayer is an endeavor in self-improvement and a step closer to God.",
+      // affordabilityRating: 2,
+      // safetyRating: 4,
+      // overallExpRating: 5,
+     maxStars: 5,
+      posts:[],
+      carouselImages:[]
     };
   },
+  methods:{
+    getImagesForPost(post_id) {
+      return this.carouselImages.filter(image => image.id === post_id);
+    }
+  },
+    async created(){
+  let result=await axios.get('http://localhost:5000/getpost')
+  console.log("Result",result.data[0])
+  this.posts=result.data
+  for (let i = 0; i < this.posts.length; i++) {
+    let imgString = result.data[i].string_agg;
+    console.log("1",imgString)
+    let images = []
+    if (!imgString.includes(",")) {
+      images.push({
+        id: result.data[i].post_id,
+        img: imgString
+      })
+      console.log("2",images)
+    } 
+    else {
+      let imgPaths = imgString.split(',');
+
+      for (let j = 0; j < imgPaths.length; j++) {
+        images.push({
+          id: result.data[i].post_id,
+          img: imgPaths[j]
+        });
+      }
+      
+    }
+    this.carouselImages.push(...images)
+  }
+console.log("image details",this.posts)
 }
+
+  }
 </script>
 
 
