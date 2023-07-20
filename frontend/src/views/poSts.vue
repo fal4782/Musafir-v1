@@ -37,8 +37,7 @@
         </div>
 
         <postTemplate />
-        <postTemplate />
-        <postTemplate />
+        
         <FooTer />
     </div>
 </template>
