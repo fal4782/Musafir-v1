@@ -37,7 +37,6 @@
         </div>
 
         <postTemplate />
-<<<<<<< HEAD
 
         <div class="overlay-button" @click="scrollToTop">
           <button>
@@ -45,9 +44,6 @@
             </button>
         </div>
 
-=======
-        
->>>>>>> origin/main
         <FooTer />
     </div>
 </template>

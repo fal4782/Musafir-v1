@@ -78,7 +78,6 @@
     </div>
     <!-- <div>
       <button @click="getPost">Get Post</button>
-<<<<<<< HEAD
       <div v-for="post in posts" :key='post.post_id'>
         {{ post }}
         hiiiii{{ this.images }}
@@ -86,27 +85,12 @@
           <div v-if="img.id==post.post_id">
             <img :src="require(`../assets/${img.img}`)" alt="">
 
-            <!-- <img :src="originalImages" alt=""> -->
-            {{img.path}}
-          </div>
-        </div>
-      </div>
-    </div>
-=======
-     <div v-for="post in posts" :key='post.post_id'>
-      {{ post }}
-      hiiiii{{ this.images }}
-      <div v-for="img in images" :key="img.id">
-        <div v-if="img.id==post.post_id">
-          <img :src="require(`../assets/${img.img}`)" alt="">
-          
-          <img :src="originalImages" alt=""> 
-          {{img.path}}
-        </div>
-      </div>
-      </div>
-    </div> -->
->>>>>>> origin/main
+            <img :src="originalImages" alt=""> -->
+            <!-- {{img.path}} -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -126,15 +110,9 @@ export default{
             value_for_money:'',
             safety:'',
             overall_exp:'',
-<<<<<<< HEAD
             username:'Jane Doe',
             posts:[],
             images:[]
-=======
-            username:'we are crazy',
-            // posts:[],
-            // images:[]
->>>>>>> origin/main
         }
     },
     methods:{
