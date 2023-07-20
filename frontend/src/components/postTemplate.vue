@@ -1,82 +1,20 @@
 <template>
-  <div v-for="post in posts" :key="post.post_id">
-    <div class="post-container">
-
-      <div class="left-div">
-        <section class="carousel-container">
-          <div class="slider-wrapper">
-            <div class="slider">
-              <div v-for="(image, index) in carouselImages" :key="index" >
-                <div v-if="image.id==post.post_id">
-                  <img :id="`slide-${index + 1}-${post.post_id}`" :src="require(`../assets/${image.img}`)" />
-                </div>
-                <!-- <div class="slider-nav">
-                    <a :href="`#slide-${index + 1}`"></a>
-                     <a :href="`#slide-${index + 1}`"></a> -->
-                    <!-- <template v-if = "index == carouselImages.length - 1? index = 0:index"> </template> 
-                  </div> -->
-              </div>
-              <div class="slider-nav">
-              <a v-for="(image, index) in getImagesForPost(post.post_id)" :key="index" :href="`#slide-${index + 1}-${post.post_id}`"></a>
-            </div>
-            </div>
-            
-          </div>
-        </section>
-      </div>
-
-      <div class="right-div">
-        <p class="user-name"> {{ post.name }}</p>
-
-        <div class="location">
-          <i class="fa-solid fa-location-dot"></i>
-          <p class="location-name">{{ post.place }} || {{ post.city }} || {{ post.state_name }}</p>
-        </div>
-
-        <div class="divider"></div>
-
-        <p class="content">{{ post.description}}</p>
-
-        <!-- Star rating for value for money -->
-        <div class="rating">
-          <p class="rating-title">Value for Money:</p>
-          <span v-for="star in maxStars" :key="star">
-            <i class="fa-solid"
-              :class="{ 'fa-star': star <= post.value_for_money, 'fa-star-empty': star > post.value_for_money }"></i>
-          </span>
-        </div>
-
-        <!-- Star rating for safety & security-->
-        <div class="rating">
-          <p class="rating-title">Safety & Security:</p>
-          <span v-for="star in maxStars" :key="star">
-            <i class="fa-solid" :class="{ 'fa-star': star <= post.safety, 'fa-star-empty': star > post.safety }"></i>
-          </span>
-        </div>
-
-        <!-- Star rating for overall exp -->
-        <div class="rating">
-          <p class="rating-title">Overall Experience:</p>
-          <span v-for="star in maxStars" :key="star">
-            <i class="fa-solid"
-              :class="{ 'fa-star': star <= post.overall_exp, 'fa-star-empty': star > post.overall_exp }"></i>
-          </span>
-        </div>
-
-      </div>
-    </div>
-
+  <div v-for="post1 in posts" :key="post1.post_id">
+    <!-- <div v-for="img in carouselImages" :key="img.id">
+      <div v-if="img.id == post1.post_id"> -->
+        <postChildTemplate :post="post1"/>
+        <button>next</button>
+      <!-- </div>
+    </div> -->
   </div>
-
-
 </template>
 
-
 <script>
-import axios from "axios"
+import axios from "axios";
+import postChildTemplate from "./postChildTemplate.vue";
 export default {
   components: {
-
+    postChildTemplate,
   },
   data() {
     return {
@@ -97,54 +35,50 @@ export default {
       // affordabilityRating: 2,
       // safetyRating: 4,
       // overallExpRating: 5,
-     maxStars: 5,
-      posts:[],
-      carouselImages:[]
+      maxStars: 5,
+      posts: [],
+      carouselImages: [],
+      fimg: [],
     };
   },
-  methods:{
-    getImagesForPost(post_id) {
-      return this.carouselImages.filter(image => image.id === post_id);
-    }
-  },
-    async created(){
-  let result=await axios.get('http://localhost:5000/getpost')
-  console.log("Result",result.data[0])
-  this.posts=result.data
-  for (let i = 0; i < this.posts.length; i++) {
-    let imgString = result.data[i].string_agg;
-    console.log("1",imgString)
-    let images = []
-    if (!imgString.includes(",")) {
-      images.push({
-        id: result.data[i].post_id,
-        img: imgString
-      })
-      console.log("2",images)
-    } 
-    else {
-      let imgPaths = imgString.split(',');
+  methods: {
 
-      for (let j = 0; j < imgPaths.length; j++) {
+  },
+  async created() {
+    let result = await axios.get("http://localhost:5000/getpost");
+    console.log("Result", result.data[0]);
+    this.posts = result.data;      // all posts.
+
+    for (let i = 0; i < this.posts.length; i++) {
+      let imgString = result.data[i].string_agg;
+      console.log("1", imgString);
+      let images = [];
+      if (!imgString.includes(",")) {
         images.push({
           id: result.data[i].post_id,
-          img: imgPaths[j]
+          img: imgString,
         });
-      }
-      
-    }
-    this.carouselImages.push(...images)
-  }
-console.log("image details",this.posts)
-}
+        console.log("2", images);
+      } else {
+        let imgPaths = imgString.split(",");
 
-  }
+        for (let j = 0; j < imgPaths.length; j++) {
+          images.push({
+            id: result.data[i].post_id,
+            img: imgPaths[j],
+          });
+        }
+      }
+      this.carouselImages.push(...images);
+    }
+    console.log("image details", this.posts);
+    console.log(this.carouselImages);
+  },
+};
 </script>
 
-
 <style scoped>
-
-.post-container{
+.post-container {
   width: 90vw;
   height: 90vh;
   background-color: #161616;
@@ -154,27 +88,24 @@ console.log("image details",this.posts)
   /* margin: 0 10%; */
   align-items: center;
   margin-bottom: 50px;
-  box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
-  
+  box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
 }
 
 .left-div {
   flex: 1;
   background-color: #726095;
   border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;;
+  border-bottom-left-radius: 15px;
   display: flex;
   height: 100%;
 }
 
-
-.right-div{
-  flex:1;
+.right-div {
+  flex: 1;
   display: flex;
   flex-direction: column;
   color: white;
-font-family: Arial, Helvetica, sans-serif;
-  
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .user-name {
@@ -194,98 +125,93 @@ font-family: Arial, Helvetica, sans-serif;
 .location i {
   width: 20px;
   height: 20px;
-  margin-right: 5px; 
+  margin-right: 5px;
   text-align: right;
   padding-top: 6px;
 }
-.location p{
-    margin:0;
+.location p {
+  margin: 0;
 }
 
 .divider {
   width: 100%;
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.5); 
+  background-color: rgba(255, 255, 255, 0.5);
   margin: 10px 0;
 }
 
-.content{
-    font-size: 16px;
-    margin: 20px 30px 20px 30px;
-    text-align:justify;
-    letter-spacing: 0.02cm;
-    line-height: 20px;
+.content {
+  font-size: 16px;
+  margin: 20px 30px 20px 30px;
+  text-align: justify;
+  letter-spacing: 0.02cm;
+  line-height: 20px;
 }
 
 .rating {
-    display: flex;
-    align-items: center;
-    margin-top: 0px;
-    margin-left: 30px;
-    padding: 0;
-  }
+  display: flex;
+  align-items: center;
+  margin-top: 0px;
+  margin-left: 30px;
+  padding: 0;
+}
 
 .rating-title {
-    
-    margin:6px 10px 6px 0;
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-
-.carousel-container{
-    width: 100%;
-    height: 100%;
+  margin: 6px 10px 6px 0;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.slider-wrapper{
-    position: relative;
-    max-width: 48rem;
-    height: 100%;
-    margin: 0 auto;
+.carousel-container {
+  width: 100%;
+  height: 100%;
 }
 
-.slider{
-    display: flex;
-    /* aspect-ratio: 16/9; */
-    overflow-x: auto;
-    overflow: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
-    border-top-left-radius: 15px;
+.slider-wrapper {
+  position: relative;
+  max-width: 48rem;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.slider {
+  display: flex;
+  overflow-x: auto;
+  overflow: hidden;
+  box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+  border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   height: 100%;
-
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 
-.slider img{
-    flex: 1 0 100%;
-    scroll-snap-align: start;
-    object-fit: cover;
-    height: 100%;
+.slider img {
+  flex: 1 0 100%;
+  scroll-snap-align: start;
+  object-fit: stretch;
+  height: 100%;
 }
 
-.slider-nav{
-    display: flex;
-    column-gap: 1rem;
-    position: absolute;
-    bottom: 1.25rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
+.slider-nav {
+  display: flex;
+  column-gap: 1rem;
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 
-.slider-nav a{
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background-color: white;
-    opacity: 0.75;
-    transition: opacity ease 250ms;
+.slider-nav a {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: white;
+  opacity: 0.75;
+  transition: opacity ease 250ms;
 }
 
-.slider-nav a:hover{
-    opacity: 1;
+.slider-nav a:hover {
+  opacity: 1;
 }
-
 </style>
