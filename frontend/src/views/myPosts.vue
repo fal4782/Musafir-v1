@@ -1,24 +1,32 @@
 <template>
-    <div>
-        <navBar1 />
-        <div class="parent-div">
+  <div>
+    <navBar1 />
+    <div class="parent-div">
 
-            <div class="overlay-button">
-                <button @click="showFormModal">+</button>
-            </div>
+      <div class="profile-section">
+        <img src="https://i.ibb.co/RyhKcYX/Falguni-avatar.png" alt="Profile Picture" class="profile-picture">
+        <p class="username">{{ username }}</p>
+        <div class="divider"></div>
+      </div>
 
-            <div class="overlay-button1" @click="scrollToTop">
-          <button>
-            <i class="fas fa-arrow-up"></i>
-            </button>
-        </div>
+      <postTemplate />
+      <postForm v-if="isFormModalOpen" @close="closeFormModal" @submit="handleFormSubmit"/>
 
-            <postTemplate />
-            <postForm v-if="isFormModalOpen" @close="closeFormModal" />
-            <FooTer />
+      <div class="overlay-button">
+        <button @click="showFormModal">+</button>
+      </div>
 
-        </div>
+      <div class="overlay-button1" @click="scrollToTop">
+        <button>
+          <i class="fas fa-arrow-up"></i>
+        </button>
+      </div>
+
+
+      <FooTer />
+
     </div>
+  </div>
 </template>
 
 
@@ -34,6 +42,7 @@ export default{
     data(){
         return{
             isFormModalOpen: false,
+            username: 'Jane Doe'
         }
     },
     components:{
@@ -55,6 +64,13 @@ export default{
         behavior: "smooth"
       });
     },
+    handleFormSubmit() {
+      // Close the form when the submit button is clicked
+      this.isFormModalOpen = false;
+      // Show the alert message
+      alert("Wohoo! Post successfully created.");
+    },
+
   },
 
 }
@@ -68,6 +84,34 @@ export default{
     background-image: url('https://i.ibb.co/dmr3yCD/seemless-blackbg.jpg');
     background-repeat: repeat;
     background-size: 20%;
+}
+
+.profile-section {
+  text-align: center;
+}
+
+.profile-picture {
+  width: 15%;
+  height: 15%;
+  border-radius: 50%;
+  /* Add other styles as needed */
+}
+
+.username {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 0.03cm;
+  margin: 10px 0;
+  color: white;
+}
+
+.divider {
+  height: 2px;
+  width: 100%; 
+  background-color: rgba(78, 78, 78, 0.7);
+  margin-top: 20px;
+  margin-bottom: 60px;
 }
 
 .overlay-button {

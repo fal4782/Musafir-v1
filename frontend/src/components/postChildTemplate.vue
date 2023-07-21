@@ -153,13 +153,13 @@ font-family: Arial, Helvetica, sans-serif;
 .user-name {
   font-size: 20px;
   font-weight: bold;
-  margin: 30px 0 0 20px;
+  margin: 30px 0 0 30px;
 }
 .location {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
-  margin-left: 10px;
+  margin-left: 20px;
   opacity: 0.8;
   font-size: 14px;
 }
@@ -218,24 +218,27 @@ font-family: Arial, Helvetica, sans-serif;
     
 }
 
-.slider{
-    display: flex;
-    overflow-x: auto;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
-    border-top-left-radius: 15px;
+.slider {
+  display: flex;
+  overflow-x: auto;
+  overflow: hidden;
+  box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+  border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   height: 100%;
+  width: 100%;
   scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
-.slider img{
-    flex: 1 0 100%;
-    scroll-snap-align: start;
-    object-fit: stretch;
-    height: 100%;
+.slider img {
+  /* flex: 1 0 100%; */
+  scroll-snap-align: start;
+  object-fit: stretch;
+  height: 100%;
+  width:60vw;
 }
+
 
 
 .slider-nav{
