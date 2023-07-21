@@ -42,7 +42,7 @@ export default{
     data(){
         return{
             isFormModalOpen: false,
-            username: 'Jane Doe'
+            username: ''
         }
     },
     components:{
@@ -72,6 +72,10 @@ export default{
     },
 
   },
+  mounted(){
+    this.username= JSON.parse(localStorage.getItem('user')).name
+    console.log('username',this.username)
+  }
 
 }
 </script>
