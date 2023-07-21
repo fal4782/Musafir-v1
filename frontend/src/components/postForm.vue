@@ -110,7 +110,7 @@ export default{
             value_for_money:'',
             safety:'',
             overall_exp:'',
-            username:'Jane Doe',
+            username:'',
             posts:[],
             images:[]
         }
@@ -194,7 +194,11 @@ export default{
 // console.log("image details",this.images)
 // }
 
-    }
+    },
+    mounted(){
+    this.username= JSON.parse(localStorage.getItem('user')).name
+    console.log('username',this.username)
+  }
 }
 </script>
 
@@ -229,8 +233,8 @@ export default{
   padding: 20px; 
   border-radius: 8px; 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); 
-  width: 50vw; 
-  height: 80vh;
+  /* width: 50vw;  
+  height: 80vh; */
   padding-bottom: 40px;
 }
 
