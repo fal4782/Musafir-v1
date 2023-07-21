@@ -179,8 +179,8 @@ export default {
             {
                 id: 5,
                 userName: 'John Doe',
-                placeName: 'Beautiful Beach',
-                image: 'https://i.ibb.co/TMnPS5w/tajmahal.jpg',
+                placeName: 'Bandra-Worli Sea Link',
+                image: 'https://media.istockphoto.com/id/803849854/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=In403pQnpXbKF3xpRDwjPumj2lN8XQMmkNrSjpJlwrY=',
             },
             {
                 id: 6,

@@ -70,11 +70,14 @@ const upload = multer({ storage: storage }).array('avatar')
 app.post('/upload', upload, function (req, res, next) {
   console.log(req.body);
   console.log(req.files);
-  const post = req.body
-  client.query(`insert into posts(city,state_name,place,description,value_for_money,safety,overall_exp,category,user_id) 
-               values('${post.city}','${post.state}','${post.place}','${post.description}',${post.value_for_money},${post.safety},${post.overall_exp},'${post.category}',${post.user_id})
-                returning post_id`, (err, result) => {
+  const post = req.body;
+  const query  = `insert into posts(city,state_name,place,description,value_for_money,safety,overall_exp,category,user_id) 
+  values('${post.city}','${post.state}','${post.place}','${post.description}',${post.value_for_money},${post.safety},${post.overall_exp},'${post.category}',${post.user_id})
+   returning post_id`;
+   console.log(query)
+  client.query(query, (err, result) => {
     if (!err) {
+      console.log('HI');
       const pid = result.rows[0].post_id
       for (let i = 0; i < req.files.length; i++) {
         //console.log(req.files[i].path)

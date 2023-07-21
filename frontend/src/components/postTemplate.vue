@@ -3,7 +3,7 @@
     <!-- <div v-for="img in carouselImages" :key="img.id">
       <div v-if="img.id == post1.post_id"> -->
         <postChildTemplate :post="post1"/>
-        <button>next</button>
+        
       <!-- </div>
     </div> -->
   </div>
@@ -46,7 +46,7 @@ export default {
   },
   async created() {
     let result = await axios.get("http://localhost:5000/getpost");
-    console.log("Result", result.data[0]);
+    console.log("Result", result.data);
     this.posts = result.data;      // all posts.
 
     for (let i = 0; i < this.posts.length; i++) {

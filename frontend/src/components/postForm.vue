@@ -160,6 +160,8 @@ export default{
     console.error(error);
     // Handle the error
   }
+  this.$emit("submit");
+
 },
 // async getPost(){
 //   let result=await axios.get('http://localhost:5000/getpost')
@@ -390,6 +392,7 @@ button {
   background-color: white;
   color: black;
   margin-top: 20px;
+  margin-bottom: 20px;
   padding: 2% 20%;
   border: none;
   outline: none;
