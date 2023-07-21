@@ -10,13 +10,13 @@
 
                     <div id="input-1">
                         <!-- <label for="city">City:</label><br> -->
-                        <input type="text" id="city" placeholder="Enter City">
+                        <input type="text" id="city" placeholder="Enter City" v-model="city">
                     </div>
 
                     <div id="input-2">
                         <!-- <label for="category">Choose a category:</label><br> -->
-                        <select id="category">
-                            <option disabled selected value="Catergoies">Choose Category</option>
+                        <select id="category" v-model="category">
+                            <option hidden selected value="">Choose Category</option>
                             <option value="Historical">Historical</option>
                             <option value="Gardens">Gardens</option>
                             <option value="Worship Places">Worship Places</option>
@@ -25,7 +25,7 @@
 
 
                     <div id="input-3-btn">
-                        <button class="search-btn" role="button" @click="redirect">
+                        <button class="search-btn" role="button" @click="search">
                             Search
                         </button>
                     </div>
@@ -94,6 +94,7 @@
 <script>
 import navBar1 from "../components/navBar1.vue";
 import FooTer from "../components/FooTer.vue";
+//import axios from "axios";
 
 export default {
     name: 'homePage',
@@ -146,7 +147,9 @@ export default {
                     alt: 'Taj-Mahal-Agra'
                 }
             ],
-            recentPosts: []
+            recentPosts: [],
+            city:'',
+            category:'',
         }
     },
     mounted() {
@@ -203,8 +206,13 @@ export default {
         ];
     },
     methods:{
-        redirect(){
-            this.$router.push({name:'loGin'})
+       async search(){
+        // let result=await axios.post('http://localhost:5000/search',{
+        //   city:this.city,
+        //   category:this.category,
+        // })
+        // console.log(result.data)
+        this.$router.push({name:'homePosts', params:{var:this.city,var2:this.category}})
         },
         scrollToTop() {
       window.scrollTo({

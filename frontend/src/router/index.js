@@ -8,6 +8,7 @@ import postForm from "../components/postForm.vue"
 import homePage from "../views/homePage.vue"
 import poSts from "../views/poSts.vue"
 import myPosts from "../views/myPosts.vue"
+import homePosts from "../views/homePosts.vue"
 
 
 const routes=[
@@ -50,6 +51,11 @@ const routes=[
         path:'/posts',
         name:'poSts',
         component: poSts
+    },
+    {
+        path:'/homeposts/:var/:var2',
+        name:'homePosts',
+        component: homePosts
     }
 
 
