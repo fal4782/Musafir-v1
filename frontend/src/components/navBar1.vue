@@ -6,7 +6,7 @@
         <!-- <li><router-link to="/products">Home</router-link></li> -->
         <li><router-link to="/about">About</router-link></li>
         <li><router-link to="/profile">Profile</router-link></li>
-        <li><a v-on:click="logout " href="/signup">Logout</a></li>  
+        <li><a v-on:click="logout " href="/login">Logout</a></li>  
       </ul>
     </div>
 </nav>
@@ -20,6 +20,9 @@
      methods:{
         homePage(){
           this.$router.push({name:'homePage'})
+        },
+        logout(){
+          localStorage.clear();
         }
      }
    }

@@ -123,7 +123,7 @@ app.post("/users", (req, res) => {
       res.status(201).send(result.rows);
     } else {
       console.log(err);
-      res.send("user already exist");
+      //res.send("user already exist");
     }
   });
   client.end;
@@ -208,6 +208,24 @@ app.get('/getpost', (req, res) => {
     });
 });
 
-
+//search
+app.post('/search',(req,res)=>{
+  const data=req.body;
+  console.log('data',data)
+  client.query(`SELECT p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name, STRING_AGG(i.img_path, ',')
+  FROM posts p
+  LEFT JOIN images i ON p.post_id = i.post_id
+  JOIN users u ON u.id = p.user_id
+  where p.city='${data.city}' and p.category='${data.category}'
+  GROUP BY p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name`,(err,result)=>{
+    if(!err){
+      console.log(result.rows)
+      res.send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
 
 app.use(authenticate);
