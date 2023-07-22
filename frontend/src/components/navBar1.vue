@@ -84,8 +84,8 @@ a {
 div.navbar-button-animation a{
   color: rgba(255, 255, 255, 0.7);
 }
-div.navbar-button-animation a:hover{
-  color: rgba(255, 255, 255, 1);
+div.navbar-button-animation a:hover, div.navbar-button-animation a:active{
+  color: white !important;
 }
 
 input[type="text"] {

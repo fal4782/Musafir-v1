@@ -4,7 +4,7 @@
     <div class="parent-div">
 
       <div class="profile-section">
-        <img src="https://i.ibb.co/RyhKcYX/Falguni-avatar.png" alt="Profile Picture" class="profile-picture">
+        <img src="https://i.ibb.co/wJGzYTt/PFP.png" alt="Profile Picture" class="profile-picture">
         <p class="username">{{ username }}</p>
         <div class="divider"></div>
       </div>

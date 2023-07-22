@@ -256,8 +256,9 @@ font-family: Arial, Helvetica, sans-serif;
     height: 0.5rem;
     border-radius: 50%;
     background-color: white;
-    opacity: 0.75;
+    opacity: 0.9;
     transition: opacity ease 250ms;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.9); 
 }
 
 .slider-nav a:hover{

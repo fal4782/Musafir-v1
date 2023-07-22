@@ -3,7 +3,7 @@
         <navBar1 />
 
         <div class="land-bg">
-            <h1 class="tag">Unleash Your Wanderlust, <br>Share Your Journeys</h1>
+          <h1 class="tag">Roam through landscapes <br>that stir the heart, <br>and let adventure be <br>your guiding star.</h1>
             <div class="search">
                 <p>Find the Adventure of a Lifetime</p>
                 <div class="inputs">
@@ -95,7 +95,7 @@ export default{
 .land-bg {
   position: relative; 
   height: 100vh;
-  background-image: url("https://i.ibb.co/5hfgMsp/udaipur-image1.jpg");
+  background-image: url("https://i.ibb.co/Rys4cVJ/bg-purple-starry-night.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 40px;
@@ -105,16 +105,16 @@ export default{
   /* font-family: 'Pacifico', cursive; */
   /* font-family: 'Caveat', cursive; */
   font-family: 'Unbounded', cursive;
-  font-size: 35px;
+  font-size: 33px;
+  line-height: 2.5rem;
   position: absolute;
-  top: 10%;
+  top: 20%;
   left: 50%;
   color: white;
   padding: 0;
   text-align: center;
   transform: translate(-50%, -50%);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .search {
