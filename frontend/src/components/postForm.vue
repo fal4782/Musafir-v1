@@ -11,7 +11,7 @@
       <div class="divider"></div>
 
       <div class="profile">
-        <img src="https://i.ibb.co/RyhKcYX/Falguni-avatar.png" alt="Profile Icon">
+        <img src="https://i.ibb.co/wJGzYTt/PFP.png" alt="Profile Icon">
         <div class="username-category">
           <p class="username">{{ username }}</p>
           <select id="category" v-model="category">
@@ -26,7 +26,8 @@
         </div>
       </div>
 
-      <textarea v-model="description" placeholder="Been exploring? Share your experience now!"></textarea>
+      <textarea v-model="description" placeholder="Been exploring? Share your experience now! (No &apos; or &quot; allowed in the text box :3)"></textarea>
+
 
       <div class="input-row">
         <input type="text" v-model="place" placeholder="Enter the Place">
