@@ -20,6 +20,9 @@
                             <option value="Historical">Historical</option>
                             <option value="Gardens">Gardens</option>
                             <option value="Worship Places">Worship Places</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Food & Beverages">Food & Beverages</option>
+                            <option value="Others">Others</option>
                         </select>
                     </div>
 

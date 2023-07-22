@@ -110,7 +110,7 @@ export default{
             value_for_money:'',
             safety:'',
             overall_exp:'',
-            username:'Jane Doe',
+            username:'',
             posts:[],
             images:[]
         }
@@ -194,7 +194,11 @@ export default{
 // console.log("image details",this.images)
 // }
 
-    }
+    },
+    mounted(){
+    this.username= JSON.parse(localStorage.getItem('user')).name
+    console.log('username',this.username)
+  }
 }
 </script>
 
