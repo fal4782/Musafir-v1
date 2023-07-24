@@ -73,11 +73,10 @@
             <div class="post-grid">
                 
                 <div v-for="post in recentPosts" :key="post.id" class="post">
-
-                    <img :src="post.image" :alt="post.placeName" class="post-image">
+                    <img :src="require(`../assets/${post.img}`)" :alt="post.name" class="post-image">
                     <div class="post-overlay" @click="redirect">
-                        <p class="username">{{ post.userName }}</p>
-                        <p class="place-name">{{ post.placeName }}</p>
+                        <p class="username">{{ post.name }}</p>
+                        <p class="place-name">{{ post.place }}</p>
                     </div>
 
                 </div>
@@ -97,8 +96,7 @@
 <script>
 import navBar1 from "../components/navBar1.vue";
 import FooTer from "../components/FooTer.vue";
-//import axios from "axios";
-
+import axios from "axios";
 export default {
     name: 'homePage',
     components: {
@@ -153,69 +151,89 @@ export default {
             recentPosts: [],
             city:'',
             category:'',
+            images:[]
         }
     },
-    mounted() {
+    async mounted() {
         // Fetch recent posts from the database and update the 'recentPosts' data
         // For demonstration purposes, we'll populate the data manually
-        this.recentPosts = [{
-                id: 1,
-                userName: 'John Doe',
-                placeName: 'Red Fort',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Delhi.jpg',
-            },
-            {
-                id: 2,
-                userName: 'Jane Smith',
-                placeName: 'Kaziranga National Park',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Kaziranga-national-park-Rhino.jpg',
-            },
-            {
-                id: 3,
-                userName: 'John Doe',
-                placeName: 'Bibi Ka Maqbara',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Aurangabad-Bibi-qa-Maqbara.jpg',
-            },
-            {
-                id: 4,
-                userName: 'Jane Smith',
-                placeName: 'Sunderbans',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/sunderbans-tiger-safari.jpg',
-            },
-            {
-                id: 5,
-                userName: 'John Doe',
-                placeName: 'Bandra-Worli Sea Link',
-                image: 'https://media.istockphoto.com/id/803849854/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=In403pQnpXbKF3xpRDwjPumj2lN8XQMmkNrSjpJlwrY=',
-            },
-            {
-                id: 6,
-                userName: 'Jane Smith',
-                placeName: 'Elephant Stables',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Hampi-Karnataka.jpg',
-            },
-            {
-                id: 7,
-                userName: 'John Doe',
-                placeName: 'Mysore Palace',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/mysore-palace.jpg',
-            },
-            {
-                id: 8,
-                userName: 'Jane Smith',
-                placeName: 'Taj Mahal',
-                image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/agra-taj-mahal.jpg',
-            }
-        ];
-    },
+        // 
+        let result=await axios.post('http://localhost:5000/recentPosts')
+        console.log('jibohrfgctnbixyuuuuuuuuuuvybcisk')
+        console.log(result.data)
+        for(let i=0;i<result.data.length;i++){
+          let imgPaths=result.data[i].string_agg
+          if(!imgPaths.includes(',')){
+            this.images.push(imgPaths)
+        }
+        else{
+          let img1=imgPaths.split(',');
+          this.images.push(img1[0])
+        }
+      }
+      console.log('images array',this.images)
+        for(let j=0;j<result.data.length;j++){
+          this.recentPosts.push({place:result.data[j].place,name:result.data[j].name,img:this.images[j]})
+        }
+        console.log("resuktsdvbbsa",this.recentPosts)
+  },
     methods:{
        async search(){
         // let result=await axios.post('http://localhost:5000/search',{
         //   city:this.city,
-        //   category:this.category,
+        //   catethis.recentPosts = [{
+        //         id: 1,
+        //         userName: 'John Doe',
+        //         placeName: 'Red Fort',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Delhi.jpg',
+        //     },
+        //     {
+        //         id: 2,
+        //         userName: 'Jane Smith',
+        //         placeName: 'Kaziranga National Park',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Kaziranga-national-park-Rhino.jpg',
+        //     },
+        //     {
+        //         id: 3,
+        //         userName: 'John Doe',
+        //         placeName: 'Bibi Ka Maqbara',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Aurangabad-Bibi-qa-Maqbara.jpg',
+        //     },
+        //     {
+        //         id: 4,
+        //         userName: 'Jane Smith',
+        //         placeName: 'Sunderbans',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/sunderbans-tiger-safari.jpg',
+        //     },
+        //     {
+        //         id: 5,
+        //         userName: 'John Doe',
+        //         placeName: 'Bandra-Worli Sea Link',
+        //         image: 'https://media.istockphoto.com/id/803849854/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=In403pQnpXbKF3xpRDwjPumj2lN8XQMmkNrSjpJlwrY=',
+        //     },
+        //     {
+        //         id: 6,
+        //         userName: 'Jane Smith',
+        //         placeName: 'Elephant Stables',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Hampi-Karnataka.jpg',
+        //     },
+        //     {
+        //         id: 7,
+        //         userName: 'John Doe',
+        //         placeName: 'Mysore Palace',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/mysore-palace.jpg',
+        //     },
+        //     {
+        //         id: 8,
+        //         userName: 'Jane Smith',
+        //         placeName: 'Taj Mahal',
+        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/agra-taj-mahal.jpg',
+        //     }
+        // ];gory:this.category,
         // })
         // console.log(result.data)
         this.$router.push({name:'homePosts', params:{var:this.city,var2:this.category}})
+        
         },
         scrollToTop() {
       window.scrollTo({
@@ -268,7 +286,7 @@ export default {
   background-color: rgba(19, 18, 18, 0.3);
 }
 
-.search > p{
+.search p{
   font-family: "Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-size: 30px;
   font-weight: 300;
