@@ -59,7 +59,11 @@
 
             <div class="image-container">
                 <div v-for="image in destinationImages" :key="image.id" class="image-wrapper">
+<<<<<<< HEAD
                     <img :src="image.src" :alt="image.alt" class="image">
+=======
+                    <a :href="`/posts/#post-${image.post_id}`"> <img :src="image.src" :alt="image.alt" @click="redirect" class="image"></a>
+>>>>>>> origin/main
                 </div>
             </div>
 
@@ -128,22 +132,26 @@ export default {
                 }
             ],
             destinationImages: [{
-                    id: 1,
+                    id:1,
+                    post_id: 25,
                     src: 'https://i.ibb.co/jr3h1VW/Mysore-Palace-Mysore.jpg',
                     alt: 'Mysore-Palace-Mysore'
                 },
                 {
-                    id: 2,
+                    id:2,
+                    post_id: 28,
                     src: 'https://i.ibb.co/FWNSLVM/Nubra-Valley-Ladakh.jpg',
                     alt: 'Nubra-Valley-Ladakh'
                 },
                 {
-                    id: 3,
+                    id:3,
+                    post_id: 29,
                     src: 'https://i.ibb.co/HDQttJL/Statue-of-Unity-Gujarat.jpg',
                     alt: 'Statue-of-Unity-Gujarat'
                 },
                 {
-                    id: 4,
+                    id:4,
+                    post_id: 26,
                     src: 'https://i.ibb.co/NYCFbjX/Taj-Mahal-Agra.jpg',
                     alt: 'Taj-Mahal-Agra'
                 }

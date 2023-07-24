@@ -13,6 +13,7 @@
       <div v-for="post1 in posts" :key="post1.post_id">
         <postChildTemplate :post="post1"/>
   </div>
+      <noPosts v-if="!isPostTemplateRendered"/>
       <postForm v-if="isFormModalOpen" @close="closeFormModal" @submit="handleFormSubmit"/>
 
       <div class="overlay-button">
@@ -41,6 +42,7 @@ import FooTer from "../components/FooTer.vue";
 import postForm from "../components/postForm.vue";
 import axios from "axios";
 import postChildTemplate from "../components/postChildTemplate.vue";
+import noPosts from "../components/noPosts.vue";
 
 export default{
     name:'myPosts',
@@ -57,6 +59,7 @@ export default{
         FooTer,
         postForm,
         postChildTemplate,
+        noPosts
     },
     methods: {
     showFormModal() {
@@ -71,11 +74,17 @@ export default{
         behavior: "smooth"
       });
     },
+    computed:{
+      isPostTemplateRendered() {
+      // Check if the postTemplate component is rendered
+      return !!this.$refs.postTemplateRef;
+    }
+    },
     handleFormSubmit() {
-      // Close the form when the submit button is clicked
-      this.isFormModalOpen = false;
       // Show the alert message
       alert("Wohoo! Post successfully created.");
+      // Close the form when the submit button is clicked
+      this.isFormModalOpen = false;
     },
 
   },

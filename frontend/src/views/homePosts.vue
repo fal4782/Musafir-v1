@@ -37,24 +37,31 @@
                 </div>
             </div>
         </div>
-        <div v-for="post in posts" :key="post.post_id">
+
+        <div ref="postChildTemplateRef" v-for="post in posts" :key="post.post_id">
             <postChildTemplate :post="post"/>
         </div>
+
+        <noPosts v-if="!isPostChildTemplateRendered"/>
+
         <FooTer/>
     </div>
 </template>
 
 <script>
+
 import axios from "axios"
 import navBar1 from "../components/navBar1.vue";
 import postChildTemplate from "../components/postChildTemplate.vue";
 import FooTer from "../components/FooTer.vue";
+import noPosts from "../components/noPosts.vue";
 export default{
     name:'homePosts',
     components:{
         navBar1,
         postChildTemplate,
         FooTer,
+        noPosts
     },
     data(){
         return{
@@ -78,7 +85,13 @@ export default{
         this.posts=result.data
         console.log("jhdsggvfhfv",this.posts)
         },
+        scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     },
+  },
 
         async created(){
           console.log(this.$router.params)
@@ -92,12 +105,13 @@ export default{
         console.log(result.data)
         this.posts=result.data
         },
-        scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+        
+  computed:{
+    isPostChildTemplateRendered(){
+      return !!this.$refs.postChildTemplateRef;
     }
+  },
+
 }
 
 </script>

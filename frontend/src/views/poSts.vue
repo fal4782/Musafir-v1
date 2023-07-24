@@ -2,38 +2,8 @@
     <div class="parent-div">
         <navBar1 />
 
-        <div class="land-bg">
-
-            <h1 class="tag">Roam through landscapes <br>that stir the heart, <br>and let adventure be <br>your guiding star.</h1>
-            <div class="search">
-                <p>Find the Adventure of a Lifetime</p>
-                <div class="inputs">
-
-                    <div id="input-1">
-                        <!-- <label for="city">City:</label><br> -->
-                        <input type="text" id="city" placeholder="Enter City">
-                    </div>
-
-                    <div id="input-2">
-                        <!-- <label for="category">Choose a category:</label><br> -->
-                        <select id="category">
-                            <option disabled selected value="Catergoies">Choose Category</option>
-                            <option value="Historical">Historical</option>
-                            <option value="Gardens">Gardens</option>
-                            <option value="Worship Places">Worship Places</option>
-                        </select>
-                    </div>
-
-
-                    <div id="input-3-btn">
-                        <button class="search-btn" role="button" @click="redirect">
-                            Search
-                        </button>
-                    </div>
-
-
-                </div>
-            </div>
+        <div class="img-wrapper">
+            <img src="https://i.ibb.co/M5bjFXz/banner.png"/>
         </div>
 
         <postTemplate />
@@ -92,16 +62,13 @@ export default {
     
 }
 
-.land-bg {
-  position: relative; 
-  height: 90vh;
-  background-image: url("https://i.ibb.co/VVyYRGJ/mountain.jpg");
-  /* background-image: url('https://i.ibb.co/zZRkmP1/starry-night.webp'); */
-  background-repeat: no-repeat;
-  background-size: cover;
+.img-wrapper {
   margin-bottom: 60px;
 }
 
+.img-wrapper img{
+  width: 99vw;
+}
 .tag {
   /* font-family: 'Pacifico', cursive; */
   /* font-family: 'Caveat', cursive; */
