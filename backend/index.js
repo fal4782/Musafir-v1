@@ -231,4 +231,20 @@ app.post('/search',(req,res)=>{
   })
 })
 
+
+//recentPosts
+app.post('/recentPosts',(req,res)=>{
+  client.query(`Select p.place, string_agg(i.img_path,','),u.name from posts p 
+  join images i on p.post_id=i.post_id 
+  join users u on u.id=p.user_id
+  group by p.post_id,u.name order by p.post_id  desc limit 8`,(err,result)=>{
+    if(!err){
+      console.log('recentPost',result.rows)
+      res.status(201).send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
 app.use(authenticate);
