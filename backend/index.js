@@ -215,14 +215,21 @@ app.get('/getpost', (req, res) => {
 app.post('/search',(req,res)=>{
   const data=req.body;
   console.log('data',data)
-  client.query(`SELECT p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name, STRING_AGG(i.img_path, ',')
+  let insertQuery=`SELECT p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name, STRING_AGG(i.img_path, ',')
   FROM posts p
   LEFT JOIN images i ON p.post_id = i.post_id
   JOIN users u ON u.id = p.user_id
-  where p.city='${data.city}' and p.category='${data.category}'
-  GROUP BY p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name`,(err,result)=>{
+  WHERE (
+    ${data.city ? `p.city = '${data.city}'` : '1=1'}
+  ) AND (
+    ${data.category ? `p.category = '${data.category}'` : '1=1'}
+  )
+  GROUP BY p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name;  
+  `
+  //console.log(insertQuery)
+  client.query(insertQuery,(err,result)=>{
     if(!err){
-      console.log(result.rows)
+      //console.log(result.rows)
       res.send(result.rows)
     }
     else{
@@ -239,7 +246,7 @@ app.post('/recentPosts',(req,res)=>{
   join users u on u.id=p.user_id
   group by p.post_id,u.name order by p.post_id  desc limit 8`,(err,result)=>{
     if(!err){
-      console.log('recentPost',result.rows)
+      //console.log('recentPost',result.rows)
       res.status(201).send(result.rows)
     }
     else{
@@ -247,4 +254,23 @@ app.post('/recentPosts',(req,res)=>{
     }
   })
 })
+
+//particular post
+app.post('/userPosts',(req,res)=>{
+  const id=req.body.user_id
+  client.query(`Select p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id,STRING_AGG(i.img_path, ',') from posts p 
+  join images i on p.post_id=i.post_id 
+  where p.user_id=${id}
+  group by p.post_id`,(err,result)=>{
+    if(!err){
+      console.log(result.rows)
+      res.send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
+
+
 app.use(authenticate);

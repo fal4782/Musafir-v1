@@ -46,7 +46,7 @@
 
             <div class="image-container">
                 <div v-for="image in cityImages" :key="image.id" class="image-wrapper">
-                    <img :src="image.src" :alt="image.alt" @click="redirect" class="image">
+                    <img :src="image.src" :alt="image.alt" @click="filterByPlace(image.alt)"  class="image">
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
 
             <div class="image-container">
                 <div v-for="image in destinationImages" :key="image.id" class="image-wrapper">
-                    <img :src="image.src" :alt="image.alt" @click="redirect" class="image">
+                    <img :src="image.src" :alt="image.alt" class="image">
                 </div>
             </div>
 
@@ -109,7 +109,7 @@ export default {
             cityImages: [{
                     id: 1,
                     src: 'https://i.ibb.co/F8ztY8Z/Jaipur-Rajasthan.jpg',
-                    alt: 'Jaipur-Rajasthan'
+                    alt: 'Jaipur'
                 },
                 {
                     id: 2,
@@ -119,12 +119,12 @@ export default {
                 {
                     id: 3,
                     src: 'https://i.ibb.co/1R42rvP/Mumbai-Maharashtra.jpg',
-                    alt: 'Mumbai-Maharashtra'
+                    alt: 'Mumbai'
                 },
                 {
                     id: 4,
                     src: 'https://i.ibb.co/y4SfhYx/Rann-of-Kutch-Gujarat.jpg',
-                    alt: 'Rann-of-Kutch-Gujarat'
+                    alt: 'Rann of Kutch'
                 }
             ],
             destinationImages: [{
@@ -154,7 +154,7 @@ export default {
             images:[]
         }
     },
-    async mounted() {
+    async created() {
         // Fetch recent posts from the database and update the 'recentPosts' data
         // For demonstration purposes, we'll populate the data manually
         // 
@@ -179,60 +179,9 @@ export default {
   },
     methods:{
        async search(){
-        // let result=await axios.post('http://localhost:5000/search',{
-        //   city:this.city,
-        //   catethis.recentPosts = [{
-        //         id: 1,
-        //         userName: 'John Doe',
-        //         placeName: 'Red Fort',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Delhi.jpg',
-        //     },
-        //     {
-        //         id: 2,
-        //         userName: 'Jane Smith',
-        //         placeName: 'Kaziranga National Park',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Kaziranga-national-park-Rhino.jpg',
-        //     },
-        //     {
-        //         id: 3,
-        //         userName: 'John Doe',
-        //         placeName: 'Bibi Ka Maqbara',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Aurangabad-Bibi-qa-Maqbara.jpg',
-        //     },
-        //     {
-        //         id: 4,
-        //         userName: 'Jane Smith',
-        //         placeName: 'Sunderbans',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/sunderbans-tiger-safari.jpg',
-        //     },
-        //     {
-        //         id: 5,
-        //         userName: 'John Doe',
-        //         placeName: 'Bandra-Worli Sea Link',
-        //         image: 'https://media.istockphoto.com/id/803849854/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=In403pQnpXbKF3xpRDwjPumj2lN8XQMmkNrSjpJlwrY=',
-        //     },
-        //     {
-        //         id: 6,
-        //         userName: 'Jane Smith',
-        //         placeName: 'Elephant Stables',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Hampi-Karnataka.jpg',
-        //     },
-        //     {
-        //         id: 7,
-        //         userName: 'John Doe',
-        //         placeName: 'Mysore Palace',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/mysore-palace.jpg',
-        //     },
-        //     {
-        //         id: 8,
-        //         userName: 'Jane Smith',
-        //         placeName: 'Taj Mahal',
-        //         image: 'https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/agra-taj-mahal.jpg',
-        //     }
-        // ];gory:this.category,
-        // })
-        // console.log(result.data)
-        this.$router.push({name:'homePosts', params:{var:this.city,var2:this.category}})
+        let catValue=this.category || null
+        let cityValue=this.city || null
+        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
         
         },
         scrollToTop() {
@@ -241,6 +190,13 @@ export default {
         behavior: "smooth"
       });
     },
+    async filterByPlace(a){
+      let catValue=this.category || null
+        let cityValue= a || null
+        //this.$router.push('/homeposts?var='+cityValue+'&var2='+catValue)
+        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
+        
+    }
     }
 }
 

@@ -53,7 +53,8 @@ const routes=[
         component: poSts
     },
     {
-        path:'/homeposts/:var/:var2',
+        path:'/homeposts/:var?/:var2?',
+        //path:'/homeposts?var=:var/var2=:var2',
         name:'homePosts',
         component: homePosts
     }

@@ -58,14 +58,33 @@ export default{
     },
     data(){
         return{
-            city:'',
-            category:'',
+            city:null,
+            category:null,
             posts:[]
         }
     },
-        async mounted(){
-            this.city=this.$route.params.var;
-            this.category=this.$route.params.var2
+    methods:{
+        async search(){
+        let catValue=this.category || null
+        let cityValue=this.city || null
+        console.log("in search method",this.city, "cate",this.category)
+      
+        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
+        
+        let result=await axios.post('http://localhost:5000/search',{
+          city:cityValue,
+          category:catValue,
+        })
+        this.posts=result.data
+        console.log("jhdsggvfhfv",this.posts)
+        },
+    },
+
+        async created(){
+          console.log(this.$router.params)
+            this.city=this.$route.params.var || null;
+            this.category=this.$route.params.var2 || null;
+            console.log("in created",this.city, "vfv",this.category)
         let result=await axios.post('http://localhost:5000/search',{
           city:this.city,
           category:this.category,
