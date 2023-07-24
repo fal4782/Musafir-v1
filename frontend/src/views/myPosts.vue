@@ -8,8 +8,9 @@
         <p class="username">{{ username }}</p>
         <div class="divider"></div>
       </div>
-
+<div ref="postTemplateRef">
       <postTemplate />
+    </div>
       <noPosts v-if="!isPostTemplateRendered"/>
       <postForm v-if="isFormModalOpen" @close="closeFormModal" @submit="handleFormSubmit"/>
 
