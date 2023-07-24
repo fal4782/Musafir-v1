@@ -55,48 +55,62 @@ import navBar1 from "../components/navBar1.vue";
 import postChildTemplate from "../components/postChildTemplate.vue";
 import FooTer from "../components/FooTer.vue";
 import noPosts from "../components/noPosts.vue";
-
-export default {
-  name: 'homePosts',
-
-  components: {
-    navBar1,
-    postChildTemplate,
-    FooTer,
-    noPosts
+export default{
+    name:'homePosts',
+    components:{
+        navBar1,
+        postChildTemplate,
+        FooTer,
+        noPosts
+    },
+    data(){
+        return{
+            city:null,
+            category:null,
+            posts:[]
+        }
+    },
+    methods:{
+        async search(){
+        let catValue=this.category || null
+        let cityValue=this.city || null
+        console.log("in search method",this.city, "cate",this.category)
+      
+        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
+        
+        let result=await axios.post('http://localhost:5000/search',{
+          city:cityValue,
+          category:catValue,
+        })
+        this.posts=result.data
+        console.log("jhdsggvfhfv",this.posts)
+        },
+        scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    },
   },
 
-  data() {
-    return {
-      city: '',
-      category: '',
-      posts: []
-    }
-  },
-
+        async created(){
+          console.log(this.$router.params)
+            this.city=this.$route.params.var || null;
+            this.category=this.$route.params.var2 || null;
+            console.log("in created",this.city, "vfv",this.category)
+        let result=await axios.post('http://localhost:5000/search',{
+          city:this.city,
+          category:this.category,
+        })
+        console.log(result.data)
+        this.posts=result.data
+        },
+        
   computed:{
     isPostChildTemplateRendered(){
       return !!this.$refs.postChildTemplateRef;
     }
   },
-
-  async mounted() {
-    this.city = this.$route.params.var;
-    this.category = this.$route.params.var2
-    let result = await axios.post('http://localhost:5000/search', {
-      city: this.city,
-      category: this.category,
-    })
-    console.log(result.data)
-    this.posts = result.data
-  },
-
-  scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
 
 }
 

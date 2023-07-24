@@ -8,8 +8,11 @@
         <p class="username">{{ username }}</p>
         <div class="divider"></div>
       </div>
-
-      <postTemplate />
+<!-- 
+      <postTemplate /> -->
+      <div v-for="post1 in posts" :key="post1.post_id">
+        <postChildTemplate :post="post1"/>
+  </div>
       <noPosts v-if="!isPostTemplateRendered"/>
       <postForm v-if="isFormModalOpen" @close="closeFormModal" @submit="handleFormSubmit"/>
 
@@ -34,24 +37,28 @@
 <script>
 
 import navBar1 from "../components/navBar1.vue";
-import postTemplate from "../components/postTemplate.vue";
+//import postTemplate from "../components/postTemplate.vue";
 import FooTer from "../components/FooTer.vue";
 import postForm from "../components/postForm.vue";
+import axios from "axios";
+import postChildTemplate from "../components/postChildTemplate.vue";
 import noPosts from "../components/noPosts.vue";
 
 export default{
-    name:'homePage',
+    name:'myPosts',
     data(){
         return{
             isFormModalOpen: false,
-            username: ''
+            username: '',
+            posts:[]
         }
     },
     components:{
         navBar1,
-        postTemplate,
+        //postTemplate,
         FooTer,
         postForm,
+        postChildTemplate,
         noPosts
     },
     methods: {
@@ -81,9 +88,15 @@ export default{
     },
 
   },
-  mounted(){
-    this.username= JSON.parse(localStorage.getItem('user')).name
+  async mounted(){
+    let user= JSON.parse(localStorage.getItem('user'))
+    this.username=user.name
     console.log('username',this.username)
+    let result=await axios.post('http://localhost:5000/userPosts',{
+      user_id:user.id
+    })
+    console.log(result.data)
+    this.posts=result.data
   }
 
 }
