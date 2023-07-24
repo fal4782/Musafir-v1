@@ -37,48 +37,67 @@
                 </div>
             </div>
         </div>
-        <div v-for="post in posts" :key="post.post_id">
+
+        <div ref="postChildTemplateRef" v-for="post in posts" :key="post.post_id">
             <postChildTemplate :post="post"/>
         </div>
+
+        <noPosts v-if="!isPostChildTemplateRendered"/>
+
         <FooTer/>
     </div>
 </template>
 
 <script>
+
 import axios from "axios"
 import navBar1 from "../components/navBar1.vue";
 import postChildTemplate from "../components/postChildTemplate.vue";
 import FooTer from "../components/FooTer.vue";
-export default{
-    name:'homePosts',
-    components:{
-        navBar1,
-        postChildTemplate,
-        FooTer,
-    },
-    data(){
-        return{
-            city:'',
-            category:'',
-            posts:[]
-        }
-    },
-        async mounted(){
-            this.city=this.$route.params.var;
-            this.category=this.$route.params.var2
-        let result=await axios.post('http://localhost:5000/search',{
-          city:this.city,
-          category:this.category,
-        })
-        console.log(result.data)
-        this.posts=result.data
-        },
-        scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+import noPosts from "../components/noPosts.vue";
+
+export default {
+  name: 'homePosts',
+
+  components: {
+    navBar1,
+    postChildTemplate,
+    FooTer,
+    noPosts
+  },
+
+  data() {
+    return {
+      city: '',
+      category: '',
+      posts: []
     }
+  },
+
+  computed:{
+    isPostChildTemplateRendered(){
+      return !!this.$refs.postChildTemplateRef;
+    }
+  },
+
+  async mounted() {
+    this.city = this.$route.params.var;
+    this.category = this.$route.params.var2
+    let result = await axios.post('http://localhost:5000/search', {
+      city: this.city,
+      category: this.category,
+    })
+    console.log(result.data)
+    this.posts = result.data
+  },
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
 }
 
 </script>

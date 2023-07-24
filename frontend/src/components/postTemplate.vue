@@ -1,5 +1,5 @@
 <template>
-  <div v-for="post1 in posts" :key="post1.post_id">
+  <div ref="postTemplateRef" v-for="post1 in posts" :key="post1.post_id">
     <!-- <div v-for="img in carouselImages" :key="img.id">
       <div v-if="img.id == post1.post_id"> -->
         <postChildTemplate :post="post1"/>

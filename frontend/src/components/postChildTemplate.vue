@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="post-container">
+    <div class="parent-div">
+        <div :id ="`post-${post.post_id}`" class="post-container">
 
             <div class="left-div">
                 <section class="carousel-container">
@@ -76,47 +76,78 @@
 </template>
 
 <script>
-export default{
-    name:'postChildTemplate',
-    data(){
-        return{
-            carouselImages: [],
-            maxStars: 5,
-        }
-    },
-    props:['post'],
-    methods:{
+import {
+  onMounted
+} from 'vue';
+
+export default {
+  name: 'postChildTemplate',
+  data() {
+    return {
+      carouselImages: [],
+      maxStars: 5,
+    }
+  },
+  props: ['post'],
+  methods: {
+    //   scrollToTarget() {
+    //   const targetElement = document.getElementById(`post-${this.post.post_id}`);
+    //   if (targetElement) {
+    //     targetElement.scrollIntoView({ behavior: 'smooth' });
+    //   }
+    // },
 
   },
-    created()
-    {
-        
-      let imgString = this.post.string_agg;
-      console.log("1", imgString);
-      let images = [];
-      if (!imgString.includes(",")) {
-        this.carouselImages.push({
+  created() {
+    // this.scrollToTarget();
+    let imgString = this.post.string_agg;
+    console.log("1", imgString);
+    let images = [];
+    if (!imgString.includes(",")) {
+      this.carouselImages.push({
         //   id: result.data[i].post_id,
-          img: imgString,
-        });
-        console.log("2", images);
-      } else {
-        let imgPaths = imgString.split(",");
+        img: imgString,
+      });
+      console.log("2", images);
+    } else {
+      let imgPaths = imgString.split(",");
 
-        for (let j = 0; j < imgPaths.length; j++) {
-          this.carouselImages.push({
-            // id: result.data[i].post_id,
-            img: imgPaths[j],
+      for (let j = 0; j < imgPaths.length; j++) {
+        this.carouselImages.push({
+          // id: result.data[i].post_id,
+          img: imgPaths[j],
+        });
+      }
+    }
+    console.log(this.carouselImages);
+
+  },
+  setup() {
+    onMounted(() => {
+      // Check if the URL has a hash (fragment identifier)
+      const hash = window.location.hash;
+      if (hash) {
+        // Remove the leading '#' from the hash
+        const targetId = hash.substring(1);
+        // Find the target element by its ID
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          // Scroll to the target element
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
           });
         }
       }
-      console.log(this.carouselImages);
-    }
+    });
   }
+}
 </script>
 
 <style scoped>
 
+.parent-div{
+  scroll-behavior: smooth;
+}
 .post-container{
   width: 90vw;
   height: 90vh;
