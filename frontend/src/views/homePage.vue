@@ -46,7 +46,7 @@
 
             <div class="image-container">
                 <div v-for="image in cityImages" :key="image.id" class="image-wrapper">
-                    <img :src="image.src" :alt="image.alt" @click="filterByPlace(image.alt)"  class="image">
+                    <img :src="image.src" :alt="image.alt" @click="filterByPlace(image.alt)" class="image">
                 </div>
             </div>
 
@@ -59,11 +59,9 @@
 
             <div class="image-container">
                 <div v-for="image in destinationImages" :key="image.id" class="image-wrapper">
-<<<<<<< HEAD
-                    <img :src="image.src" :alt="image.alt" class="image">
-=======
-                    <a :href="`/posts/#post-${image.post_id}`"> <img :src="image.src" :alt="image.alt" @click="redirect" class="image"></a>
->>>>>>> origin/main
+                  <a :href="`/posts/#post-${image.post_id}`"> 
+                    <img :src="image.src" :alt="image.alt" @click="redirect" class="image">
+                  </a>
                 </div>
             </div>
 
@@ -77,11 +75,15 @@
             <div class="post-grid">
                 
                 <div v-for="post in recentPosts" :key="post.id" class="post">
-                    <img :src="require(`../assets/${post.img}`)" :alt="post.name" class="post-image">
+
+                  <img :src="require(`../assets/${post.img}`)" :alt="post.name" class="post-image">
+
+                  <a :href="`/posts/#post-${post.post_id}`">
                     <div class="post-overlay" @click="redirect">
-                        <p class="username">{{ post.name }}</p>
-                        <p class="place-name">{{ post.place }}</p>
+                      <p class="username">{{ post.name }}</p>
+                      <p class="place-name">{{ post.place }}</p>
                     </div>
+                  </a>
 
                 </div>
             
@@ -101,111 +103,156 @@
 import navBar1 from "../components/navBar1.vue";
 import FooTer from "../components/FooTer.vue";
 import axios from "axios";
+// import { onBeforeUnmount, onMounted } from 'vue';
+
 export default {
-    name: 'homePage',
-    components: {
-        navBar1,
-        FooTer
-    },
-    data() {
-        return {
-            imageUrl: require('@/assets/udaipur_image1.jpg').default,
-            cityImages: [{
-                    id: 1,
-                    src: 'https://i.ibb.co/F8ztY8Z/Jaipur-Rajasthan.jpg',
-                    alt: 'Jaipur'
-                },
-                {
-                    id: 2,
-                    src: 'https://i.ibb.co/RhPwM7r/Kerala.jpg',
-                    alt: 'Kerela'
-                },
-                {
-                    id: 3,
-                    src: 'https://i.ibb.co/1R42rvP/Mumbai-Maharashtra.jpg',
-                    alt: 'Mumbai'
-                },
-                {
-                    id: 4,
-                    src: 'https://i.ibb.co/y4SfhYx/Rann-of-Kutch-Gujarat.jpg',
-                    alt: 'Rann of Kutch'
-                }
-            ],
-            destinationImages: [{
-                    id:1,
-                    post_id: 25,
-                    src: 'https://i.ibb.co/jr3h1VW/Mysore-Palace-Mysore.jpg',
-                    alt: 'Mysore-Palace-Mysore'
-                },
-                {
-                    id:2,
-                    post_id: 28,
-                    src: 'https://i.ibb.co/FWNSLVM/Nubra-Valley-Ladakh.jpg',
-                    alt: 'Nubra-Valley-Ladakh'
-                },
-                {
-                    id:3,
-                    post_id: 29,
-                    src: 'https://i.ibb.co/HDQttJL/Statue-of-Unity-Gujarat.jpg',
-                    alt: 'Statue-of-Unity-Gujarat'
-                },
-                {
-                    id:4,
-                    post_id: 26,
-                    src: 'https://i.ibb.co/NYCFbjX/Taj-Mahal-Agra.jpg',
-                    alt: 'Taj-Mahal-Agra'
-                }
-            ],
-            recentPosts: [],
-            city:'',
-            category:'',
-            images:[]
-        }
-    },
-    async created() {
-        // Fetch recent posts from the database and update the 'recentPosts' data
-        // For demonstration purposes, we'll populate the data manually
-        // 
-        let result=await axios.post('http://localhost:5000/recentPosts')
-        console.log('jibohrfgctnbixyuuuuuuuuuuvybcisk')
-        console.log(result.data)
-        for(let i=0;i<result.data.length;i++){
-          let imgPaths=result.data[i].string_agg
-          if(!imgPaths.includes(',')){
-            this.images.push(imgPaths)
-        }
-        else{
-          let img1=imgPaths.split(',');
-          this.images.push(img1[0])
-        }
-      }
-      console.log('images array',this.images)
-        for(let j=0;j<result.data.length;j++){
-          this.recentPosts.push({place:result.data[j].place,name:result.data[j].name,img:this.images[j]})
-        }
-        console.log("resuktsdvbbsa",this.recentPosts)
+  name: 'homePage',
+  components: {
+    navBar1,
+    FooTer
   },
-    methods:{
-       async search(){
-        let catValue=this.category || null
-        let cityValue=this.city || null
-        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
-        
+  data() {
+    return {
+      imageUrl: require('@/assets/udaipur_image1.jpg').default,
+
+      cityImages: [{
+          id: 1,
+          src: 'https://i.ibb.co/F8ztY8Z/Jaipur-Rajasthan.jpg',
+          alt: 'Jaipur'
         },
-        scrollToTop() {
+        {
+          id: 2,
+          src: 'https://i.ibb.co/RhPwM7r/Kerala.jpg',
+          alt: 'Kerela'
+        },
+        {
+          id: 3,
+          src: 'https://i.ibb.co/1R42rvP/Mumbai-Maharashtra.jpg',
+          alt: 'Mumbai'
+        },
+        {
+          id: 4,
+          src: 'https://i.ibb.co/y4SfhYx/Rann-of-Kutch-Gujarat.jpg',
+          alt: 'Rann of Kutch'
+        }
+      ],
+      destinationImages: [{
+          id: 1,
+          post_id: 25,
+          src: 'https://i.ibb.co/jr3h1VW/Mysore-Palace-Mysore.jpg',
+          alt: 'Mysore-Palace-Mysore'
+        },
+        {
+          id: 2,
+          post_id: 28,
+          src: 'https://i.ibb.co/FWNSLVM/Nubra-Valley-Ladakh.jpg',
+          alt: 'Nubra-Valley-Ladakh'
+        },
+        {
+          id: 3,
+          post_id: 29,
+          src: 'https://i.ibb.co/HDQttJL/Statue-of-Unity-Gujarat.jpg',
+          alt: 'Statue-of-Unity-Gujarat'
+        },
+        {
+          id: 4,
+          post_id: 26,
+          src: 'https://i.ibb.co/NYCFbjX/Taj-Mahal-Agra.jpg',
+          alt: 'Taj-Mahal-Agra'
+        }
+      ],
+      recentPosts: [],
+      city: '',
+      category: '',
+      images: []
+    }
+  },
+
+  async created() {
+    // Fetch recent posts from the database and update the 'recentPosts' data
+    // For demonstration purposes, we'll populate the data manually
+    // 
+    let result = await axios.post('http://localhost:5000/recentPosts')
+    console.log('jibohrfgctnbixyuuuuuuuuuuvybcisk')
+    console.log(result.data)
+    for (let i = 0; i < result.data.length; i++) {
+      let imgPaths = result.data[i].string_agg
+      if (!imgPaths.includes(',')) {
+        this.images.push(imgPaths)
+      } else {
+        let img1 = imgPaths.split(',');
+        this.images.push(img1[0])
+      }
+    }
+    console.log('images array', this.images)
+    for (let j = 0; j < result.data.length; j++) {
+      this.recentPosts.push({
+        place: result.data[j].place,
+        name: result.data[j].name,
+        post_id: result.data[j].post_id,
+        img: this.images[j]
+      })
+    }
+    console.log("resuktsdvbbsa", this.recentPosts)
+  },
+  // setup() {
+  //   onMounted(() => {
+  //     // Add an event listener to handle the unload event
+  //     window.addEventListener('beforeunload', handleUnload);
+  //   });
+
+  //   onBeforeUnmount(() => {
+  //     // Remove the event listener before the component is unmounted
+  //     window.removeEventListener('beforeunload', handleUnload);
+  //   });
+
+  //   const handleUnload = (event) => {
+  //     // Check if the page is being closed (window is being unloaded)
+  //     if (event.currentTarget.performance.navigation.type === 1) {
+  //       // Clear local storage only if the user is closing the tab
+  //       localStorage.clear();
+  //     }
+  //   };
+
+  // },
+
+
+  methods: {
+    async search() {
+      let catValue = this.category || null
+      let cityValue = this.city || null
+      this.$router.push({
+        name: 'homePosts',
+        params: {
+          var: cityValue,
+          var2: catValue
+        }
+      })
+    },
+
+    scrollToTop() {
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
     },
-    async filterByPlace(a){
-      let catValue=this.category || null
-        let cityValue= a || null
-        //this.$router.push('/homeposts?var='+cityValue+'&var2='+catValue)
-        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
-        
-    }
-    }
+
+    async filterByPlace(a) {
+      let catValue = this.category || null
+      let cityValue = a || null
+      //this.$router.push('/homeposts?var='+cityValue+'&var2='+catValue)
+      this.$router.push({
+        name: 'homePosts',
+        params: {
+          var: cityValue,
+          var2: catValue
+        }
+      })
+
+    },
+
+
+  }
 }
 
 </script>

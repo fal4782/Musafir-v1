@@ -241,7 +241,7 @@ app.post('/search',(req,res)=>{
 
 //recentPosts
 app.post('/recentPosts',(req,res)=>{
-  client.query(`Select p.place, string_agg(i.img_path,','),u.name from posts p 
+  client.query(`Select p.place,p.post_id, string_agg(i.img_path,','),u.name from posts p 
   join images i on p.post_id=i.post_id 
   join users u on u.id=p.user_id
   group by p.post_id,u.name order by p.post_id  desc limit 8`,(err,result)=>{
