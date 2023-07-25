@@ -26,13 +26,13 @@
                 <div class="logos">
                     <!-- <i class="fa-solid fa-note"></i> -->
                     <i class="fa-solid fa-images fa-5x"></i>
-                    <h2>20</h2>
+                    <h2>{{ postcount }}</h2>
                     <p>Posts</p>
 
                 </div>
                 <div class="logos">
                     <i class="fa-solid fa-city fa-5x"></i>
-                    <h2>5</h2>
+                    <h2>{{ citycount }}</h2>
                     <p>Cities</p>
                 </div>
             </div>
@@ -98,7 +98,9 @@ import navBar1 from '../components/navBar1.vue';
      name: 'abOut',
      data(){
         return{
-            usrscount:null,
+            userscount:null,
+            postcount:null,
+            citycount:null
         }
      },
      components:{
@@ -120,6 +122,9 @@ methods:{
         let result1=await axios.get('http://localhost:5000/postcount')
         console.log(result1.data[0].count)
         this.postcount=result1.data[0].count
+        let result2=await axios.get('http://localhost:5000/citycount')
+        console.log(result2)
+        this.citycount=result2.data[0].count
      }
    }
    </script>
