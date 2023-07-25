@@ -1,51 +1,57 @@
 <template>
-    <div class="parent-div">
-        <navBar1 />
+  <div class="parent-div">
+    <navBar1 />
 
-        <div class="land-bg">
-          <h1 class="tag">Roam through landscapes <br>that stir the heart, <br>and let adventure be <br>your guiding star.</h1>
-            <div class="search">
-                <p>Find the Adventure of a Lifetime</p>
-                <div class="inputs">
+    <div class="land-bg">
+      <h1 class="tag">Roam through landscapes <br>that stir the heart, <br>and let adventure be <br>your guiding star.
+      </h1>
+      <div class="search">
+        <p>Find the Adventure of a Lifetime</p>
+        <div class="inputs">
 
-                    <div id="input-1">
-                        <!-- <label for="city">City:</label><br> -->
-                        <input type="text" id="city" placeholder="Enter City" v-model="city">
-                    </div>
+          <div id="input-1">
+            <!-- <label for="city">City:</label><br> -->
+            <input type="text" id="city" placeholder="Enter City" v-model="city">
+          </div>
 
-                    <div id="input-2">
-                        <!-- <label for="category">Choose a category:</label><br> -->
-                        <select id="category" v-model="category">
-                            <option disabled selected value="">Choose Category</option>
-                            <option value="Historical">Historical</option>
-                            <option value="Gardens">Gardens</option>
-                            <option value="Worship Places">Worship Places</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Food & Beverages">Food & Beverages</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-
-
-                    <div id="input-3-btn">
-                        <button class="search-btn" role="button" @click="search">
-                            Search
-                        </button>
-                    </div>
+          <div id="input-2">
+            <!-- <label for="category">Choose a category:</label><br> -->
+            <select id="category" v-model="category">
+              <option disabled selected value="">Choose Category</option>
+              <option value="Historical">Historical</option>
+              <option value="Gardens">Gardens</option>
+              <option value="Worship Places">Worship Places</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Food & Beverages">Food & Beverages</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
 
 
-                </div>
-            </div>
+          <div id="input-3-btn">
+            <button class="search-btn" role="button" @click="search">
+              Search
+            </button>
+          </div>
+
+
         </div>
-
-        <div ref="postChildTemplateRef" v-for="post in posts" :key="post.post_id">
-            <postChildTemplate :post="post"/>
-        </div>
-
-        <noPosts v-if="!isPostChildTemplateRendered"/>
-
-        <FooTer/>
+      </div>
     </div>
+
+    <div v-if="posts.length > 0">
+
+      <div v-for="post in posts" :key="post.post_id">
+        <postChildTemplate ref="postChildTemplateRef" :post="post" />
+      </div>
+    
+    </div>
+    
+    <noPosts v-else />
+
+    
+    <FooTer />
+  </div>
 </template>
 
 <script>
@@ -55,48 +61,56 @@ import navBar1 from "../components/navBar1.vue";
 import postChildTemplate from "../components/postChildTemplate.vue";
 import FooTer from "../components/FooTer.vue";
 import noPosts from "../components/noPosts.vue";
-
-export default {
-  name: 'homePosts',
-
-  components: {
-    navBar1,
-    postChildTemplate,
-    FooTer,
-    noPosts
+export default{
+    name:'homePosts',
+    components:{
+        navBar1,
+        postChildTemplate,
+        FooTer,
+        noPosts
+    },
+    data(){
+        return{
+            city:null,
+            category:null,
+            posts:[]
+        }
+    },
+    methods:{
+        async search(){
+        let catValue=this.category || null
+        let cityValue=this.city || null
+        console.log("in search method",this.city, "cate",this.category)
+      
+        this.$router.push({name:'homePosts', params:{var:cityValue,var2:catValue}})
+        
+        let result=await axios.post('http://localhost:5000/search',{
+          city:cityValue,
+          category:catValue,
+        })
+        this.posts=result.data
+        console.log("jhdsggvfhfv",this.posts)
+        },
+        scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    },
   },
 
-  data() {
-    return {
-      city: '',
-      category: '',
-      posts: []
-    }
-  },
-
-  computed:{
-    isPostChildTemplateRendered(){
-      return !!this.$refs.postChildTemplateRef;
-    }
-  },
-
-  async mounted() {
-    this.city = this.$route.params.var;
-    this.category = this.$route.params.var2
-    let result = await axios.post('http://localhost:5000/search', {
-      city: this.city,
-      category: this.category,
-    })
-    console.log(result.data)
-    this.posts = result.data
-  },
-
-  scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
+        async created(){
+          console.log(this.$router.params)
+            this.city=this.$route.params.var || null;
+            this.category=this.$route.params.var2 || null;
+            console.log("in created",this.city, "vfv",this.category)
+        let result=await axios.post('http://localhost:5000/search',{
+          city:this.city,
+          category:this.category,
+        })
+        console.log(result.data)
+        this.posts=result.data
+        },
 
 }
 
