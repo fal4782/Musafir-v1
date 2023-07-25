@@ -46,9 +46,11 @@
             console.log('ggi')
             console.log(result.data[0])
             if(result.status==201 && result.data.length>0){
-                console.log('hii')
                 localStorage.setItem('user',JSON.stringify(result.data[0]))
                 this.$router.push({name:'homePage'})
+            }
+            else{
+              alert('Invalid user or password')
             }
         }
      }

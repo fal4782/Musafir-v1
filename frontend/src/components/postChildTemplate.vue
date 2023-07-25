@@ -1,7 +1,7 @@
 <template>
     <div class="parent-div">
         <div :id ="`post-${post.post_id}`" class="post-container">
-
+          
             <div class="left-div">
                 <section class="carousel-container">
 
@@ -31,6 +31,11 @@
             </div>
 
             <div class="right-div">
+              <div class="ud-options" v-if="isMyProfilePage">
+                <i class="fa-solid fa-pen-to-square edit" @click="editPost(post)"></i>
+                <i class="fa-solid fa-trash delete" @click="deletePost(post.post_id)"></i>
+              </div>
+              
                 <p class="user-name"> {{ post.name }}</p>
 
                 <div class="location">
@@ -76,6 +81,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import {
   onMounted
 } from 'vue';
@@ -88,15 +94,26 @@ export default {
       maxStars: 5,
     }
   },
+  computed:{
+    isMyProfilePage(){
+       return window.location.pathname==='/profile'
+       
+    }
+  },
   props: ['post'],
   methods: {
-    //   scrollToTarget() {
-    //   const targetElement = document.getElementById(`post-${this.post.post_id}`);
-    //   if (targetElement) {
-    //     targetElement.scrollIntoView({ behavior: 'smooth' });
-    //   }
-    // },
-
+    editPost(){
+      this.$router.push({name:'editPost', params:{data:JSON.stringify(this.post)}})
+    },
+    async deletePost(post_id){
+      console.log("in deletePost")
+      let result=await axios.post('http://localhost:5000/deletePost',{
+         post_id:post_id
+      })
+      location.reload()
+      console.log("123",result)
+      
+    }
   },
   created() {
     // this.scrollToTarget();
@@ -294,6 +311,27 @@ font-family: Arial, Helvetica, sans-serif;
 
 .slider-nav a:hover{
     opacity: 1;
+}
+.ud-options{
+  position:relative;
+  left:85%;
+  top:-45%;   
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.delete{
+  padding-left: 10px;
+}
+
+.ud-options i{
+  transition: transform 0.2s ease;
+}
+
+.ud-options i:hover{
+  transform: scale(1.3);
+  cursor: pointer;
 }
 
 </style>

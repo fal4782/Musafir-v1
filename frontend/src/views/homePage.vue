@@ -59,11 +59,7 @@
 
             <div class="image-container">
                 <div v-for="image in destinationImages" :key="image.id" class="image-wrapper">
-<<<<<<< HEAD
-                    <img :src="image.src" :alt="image.alt" class="image">
-=======
                     <a :href="`/posts/#post-${image.post_id}`"> <img :src="image.src" :alt="image.alt" @click="redirect" class="image"></a>
->>>>>>> origin/main
                 </div>
             </div>
 

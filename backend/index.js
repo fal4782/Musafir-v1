@@ -6,7 +6,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const authenticate = require("./verifyToken.js");
 // app.use(authenticate)
-
+const bcrypt=require("bcrypt")
 
 
 const multer=require("multer");
@@ -116,9 +116,21 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   const user = req.body;
   console.log(user);
-  let insertQuery = `insert into users(name, email, password) 
-    values('${user.name}','${user.email}','${user.password}')`;
+  // 
 
+  //bcrypt
+  const plaintextPassword = user.password
+  console.log(plaintextPassword)
+const saltRounds = 10;
+bcrypt.hash(plaintextPassword, saltRounds, (err, hash) => {
+  if (err) {
+    console.error('Error hashing password:', err);
+  } else {
+    console.log('Hashed password:', hash);
+    //hashedPassword = hash
+    // Save the hashed password to your database or wherever it's needed
+    let insertQuery = `insert into users(name, email, password) 
+  values('${user.name}','${user.email}','${hash}')`;
   client.query(insertQuery, (err, result) => {
     if (!err) {
         console.log(result)
@@ -126,9 +138,12 @@ app.post("/users", (req, res) => {
       res.status(201).send(result.rows);
     } else {
       console.log(err);
-      //res.send("user already exist");
+      res.send("user already exist");
     }
   });
+  }
+});
+
   client.end;
 });
 
@@ -138,30 +153,48 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
   client.query(
-    `Select * from users where email='${email}' and password='${password}'`,
+    // `Select * from users where email='${email}' and password='${password}'`,
+    `Select * from users where email='${email}'`,
     (err, result) => {
       if (!err) {
-        console.log("Hello again");
-        if (result.rows[0]) {
-          const token = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET);
-          console.log(token);
-          const sendItems = [{
-            id: result.rows[0].id,
-            name: result.rows[0].name,
-            email: result.rows[0].email,
-            password: result.rows[0].password,
-            created_at: result.rows[0].created_at,
-            token: token,
-          }];
-          res.status(201).send(sendItems);
-        }
-        //console.log(result.rows[0]);
-        // console.log(result.rows)
-        // res.status(201).send(result.rows);
-        else {
-          console.log(err);
-          res.send("invalid user or password");
-        }
+        console.log("result",result.rows[0]);
+        const hashedPassword=result.rows[0].password
+
+        //bcrypt
+  bcrypt.compare(password, hashedPassword, (err, result1) => {
+    if (err) {
+      console.error('Error comparing passwords:', err);
+    } else if (result1) {
+      console.log('Passwords match!',result1);
+    } else {
+      console.log('Passwords do not match!');
+    }
+
+    if (result1 && result.rows[0] ) {
+      const token = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET);
+      console.log(token);
+      const sendItems = [{
+        id: result.rows[0].id,
+        name: result.rows[0].name,
+        email: result.rows[0].email,
+        password: result.rows[0].password,
+        created_at: result.rows[0].created_at,
+        token: token,
+      }];
+      res.status(201).send(sendItems);
+    }
+    //console.log(result.rows[0]);
+    // console.log(result.rows)
+    // res.status(201).send(result.rows);
+    else {
+      console.log(err);
+      res.send("invalid user or password");
+    }
+  });
+
+
+
+
       }
     }
   );
@@ -193,6 +226,16 @@ app.get('/postcount',(req,res)=>{
   })
 })
 
+app.get('/citycount',(req,res)=>{
+  client.query(`select count(distinct(city)) from posts`,(err,result)=>{
+    if(!err){
+    res.send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
 
 //getPost
 app.get('/getpost', (req, res) => {
@@ -200,7 +243,7 @@ app.get('/getpost', (req, res) => {
                 FROM posts p
                 LEFT JOIN images i ON p.post_id = i.post_id
                 JOIN users u ON u.id = p.user_id
-                GROUP BY p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name`,
+                GROUP BY p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name order by p.post_id desc`,
     (err, result) => {
       if (!err) {
         res.send(result.rows);
@@ -263,7 +306,7 @@ app.post('/userPosts',(req,res)=>{
   where p.user_id=${id}
   group by p.post_id`,(err,result)=>{
     if(!err){
-      console.log(result.rows)
+      //console.log(result.rows)
       res.send(result.rows)
     }
     else{
@@ -272,5 +315,40 @@ app.post('/userPosts',(req,res)=>{
   })
 })
 
+//edit post
+app.post('/edit',(req,res)=>{
+  console.log(req.body)
+  const post=req.body
+  client.query(`Update posts set place='${post.place}', city='${post.city}',state_name='${post.state}',description='${post.description}', category='${post.category}', value_for_money=${post.value_for_money},safety=${post.safety},overall_exp=${post.overall_exp} where post_id=${post.post_id}`,(err,result)=>{
+    if(!err){
+      console.log('updation successful')
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
 
+//deletePost
+app.post('/deletePost',(req,res)=>{
+  const id=req.body.post_id
+  console.log(id)
+  client.query(`delete from images where post_id=${id}`,(err,result)=>{
+    if(!err){
+      client.query(`delete from posts where post_id=${id}`,(err1,res1)=>{
+        if(!err1){
+          console.log('deletion successful')
+
+        }
+        else{
+          console.log("err1",err1)
+        }
+      })
+      res.send("1234")
+    }
+    else{
+      console.log("err",err)
+    }
+  })
+})
 app.use(authenticate);
