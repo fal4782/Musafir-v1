@@ -61,18 +61,19 @@ export default {
         this.password = ''
       }
       console.log(result)
-      /*let res= await axios.post(`http://localhost:5500/login`,{phone:parseInt(this.phone),password:this.password});
-     if(result.status==201)
-     {
+      let res= await axios.post(`http://localhost:5000/login`,{
+        email:this.email,password:this.password
+      });
+     if(res.status==201 && res.data.length>0)
+     {  console.log("dgynsgbfuyfyunfsgn")
         localStorage.setItem('user',JSON.stringify(res.data[0]));
-        if(res.data[0].type=='user'){
-          this.$router.push({name:'Products'})
-        }
-        else if(res.data[0].type=='admin'){
-          this.$router.push({name:'addProduct'})
-        }
+          this.$router.push({name:'homePage'})
+        
+        // else if(res.data[0].type=='admin'){
+        //   this.$router.push({name:'addProduct'})
+        // }
     
-    }*/
+    }
     },
   }
 

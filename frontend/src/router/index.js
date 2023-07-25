@@ -9,7 +9,7 @@ import homePage from "../views/homePage.vue"
 import poSts from "../views/poSts.vue"
 import myPosts from "../views/myPosts.vue"
 import homePosts from "../views/homePosts.vue"
-
+import editPost from "../components/editPost.vue"
 
 const routes=[
     {
@@ -57,6 +57,12 @@ const routes=[
         //path:'/homeposts?var=:var/var2=:var2',
         name:'homePosts',
         component: homePosts
+    },
+    {
+        path:'/editPost/:data',
+        //path:'/homeposts?var=:var/var2=:var2',
+        name:'editPost',
+        component: editPost
     }
 
 

@@ -81,6 +81,8 @@ export default{
       alert("Wohoo! Post successfully created.");
       // Close the form when the submit button is clicked
       this.isFormModalOpen = false;
+      location.reload();
+
     },
   },
     computed:{
