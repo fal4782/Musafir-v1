@@ -26,7 +26,22 @@
         </div>
       </div>
 
-      <textarea v-model="description" placeholder="Been exploring? Share your experience now! (No &apos; or &quot; allowed in the text box :3)"></textarea>
+      <textarea v-model="description"
+        placeholder="Been exploring? Share your experience now! (No &apos; or &quot; allowed in the text box :3)
+
+Please also include:
+
+- Your epic adventures and funny encounters. [I got lost in the city and ended up in a hilarious situation!].
+
+- The cost of your travel [I managed to go on this trip on a shoestring budget!].
+
+- Travel details, including your starting point, travel time, and mode of transport [I started my journey from Delhi by train, and it took me 6 hours.]
+
+- Tips for fellow travelers [Always remember to bring an umbrella, you never know when it might rain!]
+
+- Get creative and have fun with your travel stories! 
+
+Happy writing!"></textarea>
 
 
       <div class="input-row">
@@ -34,13 +49,15 @@
         <input type="text" v-model="city" placeholder="Enter the City">
         <input type="text" v-model="state" placeholder="Enter the State">
       </div>
-
-      <label for="upload-images" class="upload-btn">
-
-        Add images to your post<i class="fas fa-image"></i>
-      </label>
-      <input type="file" id="upload-images" name="avatar" @change="handleFileChange" multiple style="display: none;">
-
+      <div class="image-input">
+        <label for="upload-images" class="upload-btn">
+          Add images to your post<i class="fas fa-image"></i>
+        </label>
+        <input type="file" id="upload-images" name="avatar" @change="handleFileChange" multiple>
+        <ul id="file-names">
+          <li v-for="file in files" :key="file.name">{{ file.name }}</li>
+        </ul>
+      </div>
 
 
       <div class="rating-row">
@@ -113,12 +130,14 @@ export default{
             overall_exp:'',
             username:'',
             posts:[],
-            images:[]
+            images:[],
+            files:[]
         }
     },
     methods:{
         handleFileChange(event) {
     this.image= event.target.files;
+    this.files = Array.from(event.target.files);
     console.log('dvhgyu',this.image)
   },
     getImage(url)
@@ -163,42 +182,21 @@ export default{
   }
   this.$emit("submit");
 
-},
-// async getPost(){
-//   let result=await axios.get('http://localhost:5000/getpost')
-//   console.log("Result",result.data[0])
-//   this.posts=result.data
-//   for (let i = 0; i < this.posts.length; i++) {
-//     let imgString = result.data[i].string_agg;
-//     console.log("1",imgString)
-//     let images = []
-//     if (!imgString.includes(",")) {
-//       images.push({
-//         id: result.data[i].post_id,
-//         img: imgString
-//       })
-//       console.log("2",images)
-//     } 
-//     else {
-//       let imgPaths = imgString.split(',');
 
-//       for (let j = 0; j < imgPaths.length; j++) {
-//         images.push({
-//           id: result.data[i].post_id,
-//           img: imgPaths[j]
-//         });
-//       }
-      
-//     }
-//     this.images.push(...images)
-//   }
-// console.log("image details",this.images)
-// }
+
+
+},
+
 
     },
     mounted(){
     this.username= JSON.parse(localStorage.getItem('user')).name
     console.log('username',this.username)
+  },
+  computed:{
+    hasFiles() {
+      return this.files.length > 0;
+    },  
   }
 }
 </script>
@@ -234,7 +232,7 @@ export default{
   padding: 20px; 
   border-radius: 8px; 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); 
-  /* width: 50vw;  */
+  width: 50vw; 
   /* height: 80vh; */
   padding-bottom: 40px;
 }
@@ -337,8 +335,6 @@ input[type="text"]{
   color:white;
 }
 
-
-
 .input::placeholder {
   color: rgba(250, 250, 250, 0.7);
   font-size: 16px;
@@ -358,6 +354,21 @@ textarea {
   outline: none;
   font-size: 16px;
 }
+textarea::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+/* (the draggable part) */
+textarea::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 5px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background-color: #333;
+  cursor: pointer; /*not working*/
+}
 
 .upload-btn {
   background-color: transparent;
@@ -370,19 +381,42 @@ textarea {
   padding: 10px;
   border-radius: 5px;
   font-family: Arial, Helvetica, sans-serif;
-  margin-bottom: 20px;
   width:90%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 20px;
 }
 
 .upload-btn i {
   margin-left: 5px;
 }
 
-/* input #file-upload-button{ */
-  /* display:none; */
-/* } */
+#upload-images{
+  display: none;
+}
+
+#file-names{
+  color:white;
+  list-style: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  padding-left: 30px;
+  margin-top: 5px;
+}
+
+#file-names li{
+  display: inline;
+}
+
+#file-names li::after {
+  content: " || ";
+  font-size: 18px;
+  font-weight: 900;
+}
+
+#file-names li:last-child::after {
+    content: "";
+}
 
 .rating-row {
   display: flex;

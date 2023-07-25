@@ -8,12 +8,14 @@
         <p class="username">{{ username }}</p>
         <div class="divider"></div>
       </div>
-<!-- 
-      <postTemplate /> -->
-      <div v-for="post1 in posts" :key="post1.post_id">
+
+      
+    
+<div v-if="posts.length > 0">
+      <div ref="postTemplateRef" v-for="post1 in posts" :key="post1.post_id">
         <postChildTemplate :post="post1"/>
-  </div>
-      <noPosts v-if="!isPostTemplateRendered"/>
+  </div></div>
+      <noPosts v-else/>
       <postForm v-if="isFormModalOpen" @close="closeFormModal" @submit="handleFormSubmit"/>
 
       <div class="overlay-button">
@@ -74,6 +76,7 @@ export default{
         behavior: "smooth"
       });
     },
+  },
     computed:{
       isPostTemplateRendered() {
       // Check if the postTemplate component is rendered
@@ -87,8 +90,6 @@ export default{
       this.isFormModalOpen = false;
       location.reload()
     },
-
-  },
   async mounted(){
     let user= JSON.parse(localStorage.getItem('user'))
     this.username=user.name

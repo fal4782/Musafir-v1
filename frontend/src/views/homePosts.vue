@@ -1,51 +1,57 @@
 <template>
-    <div class="parent-div">
-        <navBar1 />
+  <div class="parent-div">
+    <navBar1 />
 
-        <div class="land-bg">
-          <h1 class="tag">Roam through landscapes <br>that stir the heart, <br>and let adventure be <br>your guiding star.</h1>
-            <div class="search">
-                <p>Find the Adventure of a Lifetime</p>
-                <div class="inputs">
+    <div class="land-bg">
+      <h1 class="tag">Roam through landscapes <br>that stir the heart, <br>and let adventure be <br>your guiding star.
+      </h1>
+      <div class="search">
+        <p>Find the Adventure of a Lifetime</p>
+        <div class="inputs">
 
-                    <div id="input-1">
-                        <!-- <label for="city">City:</label><br> -->
-                        <input type="text" id="city" placeholder="Enter City" v-model="city">
-                    </div>
+          <div id="input-1">
+            <!-- <label for="city">City:</label><br> -->
+            <input type="text" id="city" placeholder="Enter City" v-model="city">
+          </div>
 
-                    <div id="input-2">
-                        <!-- <label for="category">Choose a category:</label><br> -->
-                        <select id="category" v-model="category">
-                            <option disabled selected value="">Choose Category</option>
-                            <option value="Historical">Historical</option>
-                            <option value="Gardens">Gardens</option>
-                            <option value="Worship Places">Worship Places</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Food & Beverages">Food & Beverages</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-
-
-                    <div id="input-3-btn">
-                        <button class="search-btn" role="button" @click="search">
-                            Search
-                        </button>
-                    </div>
+          <div id="input-2">
+            <!-- <label for="category">Choose a category:</label><br> -->
+            <select id="category" v-model="category">
+              <option disabled selected value="">Choose Category</option>
+              <option value="Historical">Historical</option>
+              <option value="Gardens">Gardens</option>
+              <option value="Worship Places">Worship Places</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Food & Beverages">Food & Beverages</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
 
 
-                </div>
-            </div>
+          <div id="input-3-btn">
+            <button class="search-btn" role="button" @click="search">
+              Search
+            </button>
+          </div>
+
+
         </div>
-
-        <div ref="postChildTemplateRef" v-for="post in posts" :key="post.post_id">
-            <postChildTemplate :post="post"/>
-        </div>
-
-        <noPosts v-if="!isPostChildTemplateRendered"/>
-
-        <FooTer/>
+      </div>
     </div>
+
+    <div v-if="posts.length > 0">
+
+      <div v-for="post in posts" :key="post.post_id">
+        <postChildTemplate ref="postChildTemplateRef" :post="post" />
+      </div>
+    
+    </div>
+    
+    <noPosts v-else />
+
+    
+    <FooTer />
+  </div>
 </template>
 
 <script>
@@ -105,12 +111,6 @@ export default{
         console.log(result.data)
         this.posts=result.data
         },
-        
-  computed:{
-    isPostChildTemplateRendered(){
-      return !!this.$refs.postChildTemplateRef;
-    }
-  },
 
 }
 
