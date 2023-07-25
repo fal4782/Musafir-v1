@@ -76,18 +76,18 @@ export default{
         behavior: "smooth"
       });
     },
+    handleFormSubmit() {
+      // Show the alert message
+      alert("Wohoo! Post successfully created.");
+      // Close the form when the submit button is clicked
+      this.isFormModalOpen = false;
+    },
   },
     computed:{
       isPostTemplateRendered() {
       // Check if the postTemplate component is rendered
       return !!this.$refs.postTemplateRef;
     }
-    },
-    handleFormSubmit() {
-      // Show the alert message
-      alert("Wohoo! Post successfully created.");
-      // Close the form when the submit button is clicked
-      this.isFormModalOpen = false;
     },
   async mounted(){
     let user= JSON.parse(localStorage.getItem('user'))
