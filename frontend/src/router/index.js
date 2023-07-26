@@ -10,6 +10,7 @@ import poSts from "../views/poSts.vue"
 import myPosts from "../views/myPosts.vue"
 import homePosts from "../views/homePosts.vue"
 import editPost from "../components/editPost.vue"
+import dashBoard from "../views/AdminPanel/dashBoard.vue"
 
 const routes=[
     {
@@ -63,6 +64,11 @@ const routes=[
         //path:'/homeposts?var=:var/var2=:var2',
         name:'editPost',
         component: editPost
+    },
+    {
+        path: '/admin/dashboard',
+        name: 'dashBoard',
+        component: dashBoard
     }
 
 
