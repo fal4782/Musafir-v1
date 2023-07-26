@@ -36,7 +36,7 @@
                 <i class="fa-solid fa-trash delete" @click="deletePost(post.post_id)"></i>
               </div>
               
-                <p class="user-name"> {{ post.name }}</p>
+                <p v-if="!isMyProfilePage" class="user-name"> {{ post.name }}</p>
 
                 <div class="location">
                     <i class="fa-solid fa-location-dot"></i>
@@ -73,7 +73,6 @@
                             :class="{ 'fa-star': star <= post.overall_exp, 'fa-star-empty': star > post.overall_exp }"></i>
                     </span>
                 </div>
-
             </div>
         </div>
     </div>
@@ -98,6 +97,9 @@ export default {
     isMyProfilePage(){
        return window.location.pathname==='/profile'
        
+    },
+    isAllPost(){
+      return window.location.pathname==='/posts'
     }
   },
   props: ['post'],
@@ -113,7 +115,11 @@ export default {
       location.reload()
       console.log("123",result)
       
-    }
+    },
+    toggleLike() {
+  const likeButton = document.querySelector('.like-button');
+  likeButton.classList.toggle('clicked');
+},
   },
   created() {
     // this.scrollToTarget();
@@ -333,5 +339,10 @@ font-family: Arial, Helvetica, sans-serif;
   transform: scale(1.3);
   cursor: pointer;
 }
-
+.divider1{
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.5); 
+  /* margin: 10px 0; */
+}
 </style>

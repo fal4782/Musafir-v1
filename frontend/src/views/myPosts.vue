@@ -51,7 +51,7 @@ export default{
         return{
             isFormModalOpen: false,
             username: '',
-            posts:[]
+            posts:[],
         }
     },
     components:{
@@ -90,6 +90,7 @@ export default{
       return !!this.$refs.postTemplateRef;
     }
     },
+   
   async mounted(){
     let user= JSON.parse(localStorage.getItem('user'))
     this.username=user.name
@@ -99,8 +100,14 @@ export default{
     })
     console.log(result.data)
     this.posts=result.data
-  }
 
+
+    window.addEventListener('beforeunload', this.beforeUnloadHandler);
+  },
+  beforeUnmount() {
+    // Remove the 'beforeunload' event listener to prevent memory leaks
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+  },
 }
 </script>
 
