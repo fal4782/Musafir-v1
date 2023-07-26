@@ -122,8 +122,8 @@ export default {
         },
         {
           id: 2,
-          src: 'https://i.ibb.co/RhPwM7r/Kerala.jpg',
-          alt: 'Kerela'
+          src: 'https://i.ibb.co/ysP6BTw/Kerala.png',
+          alt: 'Alleppey'
         },
         {
           id: 3,
@@ -132,8 +132,8 @@ export default {
         },
         {
           id: 4,
-          src: 'https://i.ibb.co/y4SfhYx/Rann-of-Kutch-Gujarat.jpg',
-          alt: 'Rann of Kutch'
+          src: 'https://i.ibb.co/B4zDVdk/Rann-of-Kutch-Gujarat.png',
+          alt: 'Kutch'
         }
       ],
       destinationImages: [{
