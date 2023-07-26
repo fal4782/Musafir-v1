@@ -52,7 +52,7 @@ export default{
         return{
             isFormModalOpen: false,
             username: '',
-            posts:[]
+            posts:[],
         }
     },
     components:{
@@ -76,20 +76,42 @@ export default{
         behavior: "smooth"
       });
     },
-  },
-    computed:{
-      isPostTemplateRendered() {
-      // Check if the postTemplate component is rendered
-      return !!this.$refs.postTemplateRef;
-    }
-    },
     handleFormSubmit() {
       // Show the alert message
+      console.log("inside handle form")
       alert("Wohoo! Post successfully created.");
       // Close the form when the submit button is clicked
       this.isFormModalOpen = false;
       location.reload()
     },
+    clearLocalStorageData() {
+      // Add your code here to clear the specific data you want
+      // For example, if you want to clear a key 'myData':
+      localStorage.removeItem('user');
+    },
+    beforeUnloadHandler(event) {
+      // Check if it's an external navigation or a page reload
+      const isExternalNavigation =
+        !event.currentTarget.location.href.startsWith(window.location.origin) &&
+        event.currentTarget.performance.navigation.type === 1;
+
+      // Clear the data only if it's an external navigation
+      if (isExternalNavigation) {
+        this.clearLocalStorageData();
+      }
+
+      // Optionally, you can also show a confirmation message to the user
+      // The browser will display a default message with or without this line
+      event.returnValue = 'Are you sure you want to leave? Your unsaved changes will be lost.';
+    },
+  },
+  computed:{
+      isPostTemplateRendered() {
+      // Check if the postTemplate component is rendered
+      return !!this.$refs.postTemplateRef;
+    }
+    },
+   
   async mounted(){
     let user= JSON.parse(localStorage.getItem('user'))
     this.username=user.name
@@ -99,8 +121,14 @@ export default{
     })
     console.log(result.data)
     this.posts=result.data
-  }
 
+
+    window.addEventListener('beforeunload', this.beforeUnloadHandler);
+  },
+  beforeUnmount() {
+    // Remove the 'beforeunload' event listener to prevent memory leaks
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+  },
 }
 </script>
 
