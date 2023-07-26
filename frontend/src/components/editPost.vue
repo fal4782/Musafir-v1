@@ -174,7 +174,7 @@
       console.error(error);
       // Handle the error
     }
-    this.$emit("submit");
+    this.$emit("editData");
   
   },
   
@@ -355,7 +355,22 @@
     outline: none;
     font-size: 16px;
   }
-  
+
+  textarea::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+/* (the draggable part) */
+textarea::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 5px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background-color: #333;
+  cursor: pointer; /*not working*/
+}
   .upload-btn {
     background-color: transparent;
     border: 1px solid rgba(78, 78, 78, 0.7);

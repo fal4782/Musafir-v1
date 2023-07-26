@@ -17,7 +17,6 @@
   </div></div>
       <noPosts v-else/>
       <postForm v-if="isFormModalOpen" @close="closeFormModal" @submit="handleFormSubmit"/>
-
       <div class="overlay-button">
         <button @click="showFormModal">+</button>
       </div>
@@ -61,7 +60,7 @@ export default{
         FooTer,
         postForm,
         postChildTemplate,
-        noPosts
+        noPosts,
     },
     methods: {
     showFormModal() {
