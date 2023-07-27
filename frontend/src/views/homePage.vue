@@ -479,9 +479,17 @@ font-size: 16px;
 .username,
 .place-name {
   margin: 0;
-  font-size: 16px;
   font-weight: bold;
   margin: 0 0 5px 5px;
+}
+
+.username{
+  font-size: 16px;
+}
+
+.place-name{
+  font-size: 12px;
+  text-align: left;
 }
 
 .overlay-button {
