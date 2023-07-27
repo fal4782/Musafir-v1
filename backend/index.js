@@ -101,7 +101,7 @@ app.post('/upload', upload, function (req, res, next) {
 // get all users
 app.get("/users", (req, res) => {
   //console.log("bsfhdguys");
-  client.query(`Select * from users`, (err, result) => {
+  client.query(`Select * from users order by created_at desc`, (err, result) => {
     //console.log('dhsguyugy');
     if (!err) {
       res.send(result.rows);
