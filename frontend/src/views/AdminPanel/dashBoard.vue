@@ -3,12 +3,16 @@
         <adminNav />
 
         <div class="header-row">
-            <div class="profile-info">
-                <div class="profile-wrapper">
-                <img src="https://i.ibb.co/RyhKcYX/Falguni-avatar.png" alt="Profile Picture" class="profile-picture">
-                <p>{{username}}</p>
+            <div class="header-left">
+                <p class="greeting">Hi, {{ username }}</p>
             </div>
-                <h3>Dashboard</h3>
+
+            <div class="header-right">
+                <div class="profile-info">
+                    <p class="account-type">Admin Account</p>
+                    <p class="user-name">{{username}}</p>
+                </div>
+                <img src="https://i.ibb.co/RyhKcYX/Falguni-avatar.png" alt="Profile Picture" class="profile-picture">
             </div>
         </div>
 
@@ -33,12 +37,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in users" :key="user.id">
-                <td>{{ user.serialNo }}</td>
+              <tr v-for="(user, index) in users" :key="user.id">
+                <td>{{ index + 1 }}</td>
                 <td>
                   <img src="https://i.ibb.co/wJGzYTt/PFP.png" alt="Profile Picture" class="profile-picture">
                 </td>
-                <td>{{ user.username }}</td>
+                <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>
                   <button class="edit-button" @click="editUser(user.id)">
@@ -92,6 +96,7 @@
 
 <script>
 
+import axios from "axios";
 import adminNav from "../../components/adminNav.vue"
 
 export default {
@@ -99,71 +104,56 @@ export default {
     data() {
         return {
             username: "Admin",
-            users: [{
-                    id: 1,
-                    serialNo: 1,
-                    username: "Divyanshi Hada",
-                    email: "d.hada@gmail.com",
-                },
-                {
-                    id: 2,
-                    serialNo: 2,
-                    username: "Aditya Sharma",
-                    email: "a.sharma@gmail.com",
-                },
-                {
-                    id: 3,
-                    serialNo: 3,
-                    username: "Gourang Sharma",
-                    email: "g.sharma@gmail.com",
-                },
-                {
-                    id: 4,
-                    serialNo: 4,
-                    username: "Keshav Gupta",
-                    email: "k.gupta@gmail.com",
-                },
-                {
-                    id: 5,
-                    serialNo: 5,
-                    username: "Vidushi Sharma",
-                    email: "v.sharma@gmail.com",
-                },
-                {
-                    id: 6,
-                    serialNo: 6,
-                    username: "Kunal Agarwal",
-                    email: "k.agarwal@gmail.com",
-                },
-            ],
+            users: [],
             userCount: 0,
             postCount: 0,
             cityCount: 0,
-            userCountTarget: 16,
-            postCountTarget: 13,
-            cityCountTarget: 12,
+            userCountTarget: null,
+            postCountTarget: null,
+            citycountTarget: null,
         }
     },
     components: {
         adminNav
     },
-    mounted() {
+    async mounted() {
         this.startCounters();
+        let user = JSON.parse(localStorage.getItem('user'))
+        this.username=user.name;
+
+        let result =await axios.get('http://localhost:5000/userscount')
+        // console.log(result)
+        this.userCountTarget=result.data[0].count
+        let result1=await axios.get('http://localhost:5000/postcount')
+        console.log(result1.data[0].count)
+        this.postCountTarget=result1.data[0].count
+        let result2=await axios.get('http://localhost:5000/citycount')
+        console.log(result2)
+        this.citycountTarget=result2.data[0].count
     },
     methods: {
         startCounters() {
             setInterval(() => {
                 this.incrementCounter("userCount", this.userCountTarget);
                 this.incrementCounter("postCount", this.postCountTarget);
-                this.incrementCounter("cityCount", this.cityCountTarget);
-            }, 60);
+                this.incrementCounter("cityCount", this.citycountTarget);
+            }, 50);
         },
         incrementCounter(counterName, target) {
             if (this[counterName] < target) {
                 this[counterName]++;
             }
         },
-    }
+    },
+    async created() {
+        try {
+            let result = await axios.get("http://localhost:5000/users");
+            this.users = result.data; //all users   
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    },
+
 }
 
 
@@ -184,32 +174,50 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  /* background-color: rgba(0, 0, 0, 0.4); */
+  background-color: #16161695;
 }
 
-.profile-info{
-    display: flex;
-}
-.profile-wrapper img{
-    width: 80px;
-}
-
-.profile-wrapper p{
-    color:white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 0;
-    letter-spacing: 0.03cm;
+.greeting {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  color: white;
+  margin: 0;
+  letter-spacing:0.02cm;
 }
 
-.profile-info h3{
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    font-size: 30px;
-    margin-left: 20px;
-    line-height: 2.3rem;
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+}
+
+.account-type {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  margin: 4px 0;
+  letter-spacing:0.03cm;
+}
+
+.user-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight:600;
+  color: white;
+  margin: 0 0;
+  letter-spacing:0.02cm;
+}
+
+.profile-picture {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 .graphs-row {
@@ -228,6 +236,7 @@ export default {
     background-color: #161616;
     padding: 40px;
     border-radius: 10px;
+    width: 68vw;
 }
 
 .user-list-container h3{
@@ -242,7 +251,7 @@ export default {
 }
 .scrollable-list {
   height: 300px;
-  width: 70vw;
+  
   /* width:fit-content;  */
   overflow-y: auto; /* Add a scrollbar when content overflows */
   color:white;
@@ -279,10 +288,15 @@ export default {
 
 .user-table th {
   background-color: rgb(11,11,11);
-  font-size:14px;
+  font-size:16px;
   letter-spacing:0.03cm;
   position: sticky;
   top:0;
+}
+
+.user-table td{
+    font-size: 18px;
+    letter-spacing:0.02cm;
 }
 
 .user-table td img {
@@ -314,7 +328,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-left:2%;
+  align-items: center;
+  width:28vw;
 }
 
 .stat-box {
@@ -326,35 +341,35 @@ export default {
 }
 
 .icon {
-  font-size:20px;
+  font-size:25px;
   margin-right: 20px;
   color:white;  
 }
 
 .fa-users{
     background-color:#3b5c53;
-    padding:18px;
+    padding:20px;
     border-radius:25%;
 }
 
 .fa-images{
     background-color:#f3a755;
-    padding:18px;
+    padding:20px;
     border-radius:25%;
 }
 
 .fa-city{
     background-color:#e58aa0;
-    padding:18px;
+    padding:20px;
     border-radius:25%;
 }
 
 
 .title {
   font-family:Arial;
-  color:white;
+  color:rgba(255,255,255,0.7);
   margin:6px 0;
-  font-size: 15px;
+  font-size: 18px;
   letter-spacing: 0.03cm;
 }
 
@@ -363,6 +378,8 @@ export default {
   font-family:Arial;
   color:white;
   font-weight:bold;
+  font-size:22px;
+  letter-spacing: 0.03cm;
 
 }
 </style>
