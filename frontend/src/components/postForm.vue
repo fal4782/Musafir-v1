@@ -367,7 +367,7 @@ textarea::-webkit-scrollbar-thumb {
 
 textarea::-webkit-scrollbar-thumb:hover {
   background-color: #333;
-  cursor: pointer; /*not working*/
+  cursor: pointer !important; /*not working*/
 }
 
 .upload-btn {
