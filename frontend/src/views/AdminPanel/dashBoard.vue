@@ -93,7 +93,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -157,7 +156,6 @@ export default {
     },
     components: {
         adminNav,
-        // Line,
     },
     async created() {
         let result = await axios.get('http://localhost:5000/adminCountUserPost')
@@ -188,16 +186,22 @@ export default {
                         min: 0, // Minimum value
                         max: 10, // Maximum value
                         // You can also set other options for the y-axis here, such as step size, ticks, etc.
-                        ticks:{
-                          color:'white',
+                        ticks: {
+                          color: 'white',
                         },
-                    },
-                    // You can also customize the x-axis (horizontal axis) in a similar way if needed.
-                    x: {
-                      ticks:{
-                          color:'white',
+                        grid: {
+                          color: '#ffffff10',
                         },
-                    },
+                      },
+                      // You can also customize the x-axis (horizontal axis) in a similar way if needed.
+                      x: {
+                        ticks: {
+                          color: 'white',
+                        },
+                        grid: {
+                          color: '#ffffff10',
+                        },
+                      },
                     
                 },
                 plugins: {
@@ -228,15 +232,18 @@ export default {
                         ticks:{
                           color:'white',
                         },
+                        grid: {
+                          color: '#ffffff10',
+                        },
                     },
                     // You can also customize the x-axis (horizontal axis) in a similar way if needed.
                     x: {
                       ticks:{
                           color:'white',
-                        },
-                        grid:{
-                          borderColor:'white',
-                        }
+                      },
+                      grid:{
+                        color:'#ffffff10',
+                      },                      
                     }
                 },
                 plugins: {
@@ -363,7 +370,7 @@ export default {
 }
 
 .user-post-graph, .city-post-graph{
-    padding:40px;
+    padding:30px 20px;
     background-color: #161616;
     border-radius: 10px;
     box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
@@ -418,7 +425,7 @@ export default {
 }
 
 .scrollable-list {
-  height: 300px;
+  height: 400px;
   overflow-y: auto; /* Add a scrollbar when content overflows */
   color:white;
   background-color: transparent;
@@ -554,8 +561,7 @@ export default {
   font-family:Arial;
   color:white;
   font-weight:bold;
-  font-size:22px;
+  font-size:20px;
   letter-spacing: 0.03cm;
-
 }
 </style>
