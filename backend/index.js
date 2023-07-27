@@ -105,7 +105,7 @@ app.get("/users", (req, res) => {
     //console.log('dhsguyugy');
     if (!err) {
       res.send(result.rows);
-      console.log(result.rows);
+      //console.log(result.rows);
       //console.log('fuhfsadi')
     } else {
       console.log(err);
@@ -157,7 +157,7 @@ app.post("/login", (req, res) => {
     `Select * from users where email='${email}'`,
     (err, result) => {
       if (!err) {
-        console.log("result",result.rows[0]);
+        //console.log("result",result.rows[0]);
         const hashedPassword=result.rows[0].password
 
         //bcrypt
@@ -257,7 +257,7 @@ app.get('/getpost', (req, res) => {
 //search
 app.post('/search',(req,res)=>{
   const data=req.body;
-  console.log('data',data)
+  //console.log('data',data)
   let insertQuery=`SELECT p.post_id, p.place, p.city, p.state_name, p.category, p.description, p.value_for_money, p.safety, p.overall_exp, p.user_id, u.name, STRING_AGG(i.img_path, ',')
   FROM posts p
   LEFT JOIN images i ON p.post_id = i.post_id
@@ -406,5 +406,85 @@ FROM
     console.log(err)
   }
 })
+})
+
+//deleteUser
+app.post('/deleteUser',(req,res)=>{
+  const id=req.body.user_id
+  console.log(id)
+  client.query(`Select post_id from posts where user_id=${id}`,(err,result)=>{
+    if(!err && result.rows.length>0){
+      console.log("huihui")
+      const pid=[]
+      for(let i=0;i<result.rows.length;i++){
+        pid.push(result.rows[i].post_id)
+
+      }
+      console.log(pid)
+      client.query(`delete from images where post_id in (${pid})`,(err1,result1)=>{
+        if(!err1){
+          client.query(`delete from posts where post_id in (${pid})`,(err2,result2)=>{
+            if(!err2){
+              client.query(`delete from users where id=${id}`,(err3,result3)=>{
+                if(!err3){
+                  console.log("deleted successfully")
+                  res.status(201).send()
+                }
+                else{
+                  console.log(err3);
+                }
+              })
+            }
+            else{
+              console.log(err2);
+            }
+          })
+        }
+        else{
+          console.log(err1);
+        }
+      })
+    }
+    else if(!err && result.rows.length==0){
+      client.query(`delete from users where id=${id}`,(err3,result3)=>{
+        if(!err3){
+          console.log("deleted successfully")
+          res.status(201).send()
+        }
+        else{
+          console.log(err3);
+        }
+      })
+    }
+    else{
+      console.log(err);
+    }
+  })
+})
+
+//user vise post
+app.get('/userVisePosts',(req,res)=>{
+  client.query(`SELECT
+  p.post_id, p.place, p.city, p.state_name, p.category, p.description,
+  p.value_for_money, p.safety, p.overall_exp, p.user_id,
+  u.name, u.id,
+  (
+    SELECT STRING_AGG(img_path, ',')
+    FROM images i
+    WHERE i.post_id = p.post_id
+  ) as images
+FROM
+  posts p
+JOIN
+  users u ON u.id = p.user_id
+ORDER BY
+  p.user_id`,(err,result)=>{
+    if(!err){
+      res.send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
 })
 app.use(authenticate);

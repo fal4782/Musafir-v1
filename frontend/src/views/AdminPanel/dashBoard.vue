@@ -284,6 +284,16 @@ export default {
                 this[counterName]++;
             }
         },
+        async deleteUser(id){
+            let result= await axios.post('http://localhost:5000/deleteUser',{
+                user_id:id
+            })
+            console.log("VTF",result)
+            if(result.status==201){
+                alert("user deleted successfully")
+            }
+            location.reload()
+        }
     },
 
 }
