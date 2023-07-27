@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="user-list-container">
+    <!-- <div class="user-list-container">
                 <h3>Users</h3>
                 <div class="scrollable-list">
                     <table class="user-table">
@@ -34,17 +34,24 @@
                         </tbody>
                     </table>
                 </div>
+            </div> -->
+            <div v-for="post1 in usersPost" :key="post1.post_id">
+                <adminPostTemplate :post="post1" />
             </div>
 </div>
 </template>
 
 <script>
 import axios from "axios"
+import adminPostTemplate from "../../components/adminPostTemplate.vue"
 export default{
     data(){
         return{
             usersPost:''
         }
+    },
+    components:{
+        adminPostTemplate
     },
     async created(){
         let result=await axios.get('http://localhost:5000/userVisePosts')
