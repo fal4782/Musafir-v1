@@ -18,10 +18,14 @@
 
         <!-- Graphs row -->
         <div class="graphs-row">
-                    <!-- <Line :data="chartData" ></Line> -->
-                
-                    <canvas id="lineChart"></canvas>
-                    <canvas id="lineChart2"></canvas>
+            <div class="user-post-graph">
+              <h3>User Engagement: Number of Posts per User</h3>
+                <canvas id="lineChart"></canvas>
+            </div>
+            <div class="city-post-graph">
+              <h3>Popular Cities: Number of Posts in Different Cities</h3>
+                <canvas id="lineChart2"></canvas>
+            </div>
         </div>
 
         <!-- Data row -->
@@ -36,7 +40,7 @@
                 <th>Profile Icon</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Actions</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -48,9 +52,6 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                  <button class="edit-button" @click="editUser(user.id)">
-                    <i class="fas fa-edit"></i>
-                  </button>
                   <button class="delete-button" @click="deleteUser(user.id)">
                     <i class="fas fa-trash-alt"></i>
                   </button>
@@ -130,8 +131,8 @@ export default {
             chartData: {
                 labels: [],
                 datasets: [{
-                    label: 'Line Chart Data',
-                    backgroundColor: 'rgba(75, 192, 192, 1)', // Fill color under the line
+                    // label: 'User vs Post',
+                    backgroundColor: 'rgba(75, 192, 192, 1)', // color for value circles
                     borderColor: 'rgba(75, 192, 192, 1)', // Line color
                     data: [], // Sample data points for the Line chart
                 }, ],
@@ -139,13 +140,12 @@ export default {
             chartData1: {
                 labels: [],
                 datasets: [{
-                    label: 'Line Chart Data',
-                    backgroundColor: 'rgba(75, 192, 192, 0.01)', // Fill color under the line
+                    backgroundColor: 'rgba(75, 192, 192, 1)', // Fill color under the line
                     borderColor: 'rgba(75, 192, 192, 1)', // Line color
                     data: [], // Sample data points for the Line chart
                 }, ],
             },
-            username: "Admin",
+            username: "",
             users: [],
             userCount: 0,
             postCount: 0,
@@ -188,8 +188,22 @@ export default {
                         min: 0, // Minimum value
                         max: 10, // Maximum value
                         // You can also set other options for the y-axis here, such as step size, ticks, etc.
+                        ticks:{
+                          color:'white',
+                        },
                     },
                     // You can also customize the x-axis (horizontal axis) in a similar way if needed.
+                    x: {
+                      ticks:{
+                          color:'white',
+                        },
+                    },
+                    
+                },
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
                 },
             },
         });
@@ -210,9 +224,25 @@ export default {
                         // Set the minimum and maximum values for the y-axis (vertical axis)
                         min: 0, // Minimum value
                         max: 10, // Maximum value
-                        // You can also set other options for the y-axis here, such as step size, ticks, etc.
+                        // You can also set other options for the y-axis here, such as step size, ticks, etc.,
+                        ticks:{
+                          color:'white',
+                        },
                     },
                     // You can also customize the x-axis (horizontal axis) in a similar way if needed.
+                    x: {
+                      ticks:{
+                          color:'white',
+                        },
+                        grid:{
+                          borderColor:'white',
+                        }
+                    }
+                },
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
                 },
             },
         });
@@ -318,41 +348,54 @@ export default {
 .graphs-row {
   display: flex;
   justify-content: space-around;
-  padding: 20px;
-  z-index: 1;
-  height:40%;
-  width:50%;
-  padding-left: 60px;
+  padding: 10px;
+  
 }
 
-/*
-.graph-box { */
-  /* Add styles for the graph box */
-  /* For example, set width, height, background color, etc. */
-/* } */
+.user-post-graph, .city-post-graph{
+    padding:40px;
+    background-color: #161616;
+    border-radius: 10px;
+    box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+    transition: transform 0.2s ease;
+}
 
+.user-post-graph:hover, .city-post-graph:hover{
+  transform: scale(1.05);
+  box-shadow: 6.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+  cursor: pointer;
 
+}
 
+.user-post-graph h3,
+.city-post-graph h3 {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.03cm;
+  margin-bottom: 20px;
+  margin-top: 0;
+  color: white;
+}
+
+#lineChart,
+#lineChart2 {
+  /* height:350px; */
+  width: 570px;
+}
 
 .data-row {
   display: flex;
   padding: 20px;
 }
 
-
-/* Add styles for the scrollable list */
-/* .scrollable-list { */
-  /* Add styles for the scrollable list */
-  /* For example, set width, max-height, overflow-y, etc. */
-/* } */
-
 .user-list-container{
     background-color: #161616;
     padding: 40px;
     border-radius: 10px;
     width: 68vw;
+    box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
 }
-
 
 .user-list-container h3{
     text-align: center;
@@ -361,13 +404,11 @@ export default {
     letter-spacing: 0.03cm;
     margin-bottom: 20px;
     margin-top: 0;
-    color: white;
-    
+    color: white; 
 }
+
 .scrollable-list {
   height: 300px;
-  
-  /* width:fit-content;  */
   overflow-y: auto; /* Add a scrollbar when content overflows */
   color:white;
   background-color: transparent;
@@ -421,23 +462,22 @@ export default {
   margin: 0 10px;
 }
 
-.edit-button,
 .delete-button {
   background: none;
   border: none;
   cursor: pointer;
+  padding:8px;
 }
 
-.edit-button i,
 .delete-button i {
   font-size: 18px;
   transition: transform 0.1s ease;
 }
 
-.edit-button i:hover, .delete-button i:hover{
+.delete-button i:hover{
     transform: scale(1.2);
+    box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.78);
 }
-
 
 .stats-container {
   display: flex;
@@ -447,24 +487,22 @@ export default {
   width:28vw;
 }
 
-
-/* .stat-box { */
-  /* Add styles for each stat box */
-  /* For example, set width, height, background color, etc. */
-/* } */
-#lineChart{
-    padding-left: 200px;
-    margin-right: 100px;
-    height: 400px;
-    width:400px
-}
-
 .stat-box {
   display: flex;
   align-items: center;
   padding: 30px;
-  background-color: transparent;
-  border-radius: 5px;
+  background-color: #16161695;
+  box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+  border-radius: 30px;
+  transition: transform 0.2s ease;
+}
+
+.stat-box:hover{
+  border-radius: 30px;
+  box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.7  8);
+  transform: scale(1.05);
+  border: 1px solid rgba(110, 109, 109, 0.7);
+  cursor: pointer;
 }
 
 .icon {
@@ -474,20 +512,21 @@ export default {
 }
 
 .fa-users{
-    background-color:#3b5c53;
-    padding:20px;
+    /* background-color:#3b5c53; */
+    background-color: rgba(75, 192, 192, 1);
+    padding:18px;
     border-radius:25%;
 }
 
 .fa-images{
-    background-color:#f3a755;
-    padding:20px;
+    background-color:hsl(31, 91%, 57%);
+    padding:18px;
     border-radius:25%;
 }
 
 .fa-city{
-    background-color:#e58aa0;
-    padding:20px;
+    background-color:#f386a1;
+    padding:18px;
     border-radius:25%;
 }
 
