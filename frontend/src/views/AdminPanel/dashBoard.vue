@@ -18,7 +18,10 @@
 
         <!-- Graphs row -->
         <div class="graphs-row">
-            
+                    <!-- <Line :data="chartData" ></Line> -->
+                
+                    <canvas id="lineChart"></canvas>
+                    <canvas id="lineChart2"></canvas>
         </div>
 
         <!-- Data row -->
@@ -94,15 +97,54 @@
 </template>
 
 
-<script>
+<script >
 
 import axios from "axios";
 import adminNav from "../../components/adminNav.vue"
-
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    LineController,
+    Title,
+    Tooltip,
+    Legend
+} from 'chart.js'
+//import { Line } from 'vue-chartjs'
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    LineController,
+    Title,
+    Tooltip,
+    Legend
+)
 export default {
     name: 'dashBoard',
     data() {
         return {
+            chartData: {
+                labels: [],
+                datasets: [{
+                    label: 'Line Chart Data',
+                    backgroundColor: 'rgba(75, 192, 192, 1)', // Fill color under the line
+                    borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                    data: [], // Sample data points for the Line chart
+                }, ],
+            },
+            chartData1: {
+                labels: [],
+                datasets: [{
+                    label: 'Line Chart Data',
+                    backgroundColor: 'rgba(75, 192, 192, 0.01)', // Fill color under the line
+                    borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                    data: [], // Sample data points for the Line chart
+                }, ],
+            },
             username: "Admin",
             users: [],
             userCount: 0,
@@ -114,8 +156,69 @@ export default {
         }
     },
     components: {
-        adminNav
+        adminNav,
+        // Line,
     },
+    async created() {
+        let result = await axios.get('http://localhost:5000/adminCountUserPost')
+        let result1 = await axios.get('http://localhost:5000/adminCountCityPost')
+        console.log(result.data)
+        console.log(result1.data)
+        let result2= await axios.get("http://localhost:5000/users");
+            this.users = result2.data; //all users  
+        const lab = []
+        const points = []
+        const lab1 = []
+        const points1= []
+        for (let i = 0; i < result.data.length; i++) {
+            lab.push(result.data[i].name)
+            points.push(result.data[i].count)
+        }
+        this.chartData.labels = lab
+        this.chartData.datasets[0].data = points
+        console.log(this.chartData.labels, "vdfgbv", this.chartData.datasets[0].data)
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        new ChartJS(ctx, {
+            type: 'line',
+            data: this.chartData,
+            options: {
+                scales: {
+                    y: {
+                        // Set the minimum and maximum values for the y-axis (vertical axis)
+                        min: 0, // Minimum value
+                        max: 10, // Maximum value
+                        // You can also set other options for the y-axis here, such as step size, ticks, etc.
+                    },
+                    // You can also customize the x-axis (horizontal axis) in a similar way if needed.
+                },
+            },
+        });
+        for (let i = 0; i < result1.data.length; i++) {
+            lab1.push(result1.data[i].city)
+            points1.push(result1.data[i].count)
+        }
+        this.chartData1.labels = lab1
+        this.chartData1.datasets[0].data = points1
+        console.log(this.chartData1.labels, "ddddddzzxd", this.chartData1.datasets[0].data)
+        const ctx2 = document.getElementById('lineChart2').getContext('2d');
+        new ChartJS(ctx2, {
+            type: 'line',
+            data: this.chartData1,
+            options: {
+                scales: {
+                    y: {
+                        // Set the minimum and maximum values for the y-axis (vertical axis)
+                        min: 0, // Minimum value
+                        max: 10, // Maximum value
+                        // You can also set other options for the y-axis here, such as step size, ticks, etc.
+                    },
+                    // You can also customize the x-axis (horizontal axis) in a similar way if needed.
+                },
+            },
+        });
+
+    },
+          
     async mounted() {
         this.startCounters();
         let user = JSON.parse(localStorage.getItem('user'))
@@ -144,14 +247,6 @@ export default {
                 this[counterName]++;
             }
         },
-    },
-    async created() {
-        try {
-            let result = await axios.get("http://localhost:5000/users");
-            this.users = result.data; //all users   
-        } catch (error) {
-            console.error("Error fetching users:", error);
-        }
     },
 
 }
@@ -224,7 +319,19 @@ export default {
   display: flex;
   justify-content: space-around;
   padding: 20px;
+  z-index: 1;
+  height:40%;
+  width:50%;
+  padding-left: 60px;
 }
+
+/*
+.graph-box { */
+  /* Add styles for the graph box */
+  /* For example, set width, height, background color, etc. */
+/* } */
+
+
 
 
 .data-row {
@@ -232,12 +339,20 @@ export default {
   padding: 20px;
 }
 
+
+/* Add styles for the scrollable list */
+/* .scrollable-list { */
+  /* Add styles for the scrollable list */
+  /* For example, set width, max-height, overflow-y, etc. */
+/* } */
+
 .user-list-container{
     background-color: #161616;
     padding: 40px;
     border-radius: 10px;
     width: 68vw;
 }
+
 
 .user-list-container h3{
     text-align: center;
@@ -330,6 +445,18 @@ export default {
   justify-content: space-around;
   align-items: center;
   width:28vw;
+}
+
+
+/* .stat-box { */
+  /* Add styles for each stat box */
+  /* For example, set width, height, background color, etc. */
+/* } */
+#lineChart{
+    padding-left: 200px;
+    margin-right: 100px;
+    height: 400px;
+    width:400px
 }
 
 .stat-box {

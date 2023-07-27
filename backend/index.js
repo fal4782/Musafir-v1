@@ -351,4 +351,60 @@ app.post('/deletePost',(req,res)=>{
     }
   })
 })
+
+//adminCountUserPost
+app.get('/adminCountUserPost',(req,res)=>{
+  client.query(`SELECT
+  u.name, COUNT(posts)
+FROM
+  users u
+LEFT JOIN
+  posts ON u.id = posts.user_id
+  GROUP BY
+  u.name,u.created_at
+ORDER BY
+u.created_at;
+`,(err,result)=>{
+    if(!err){
+      res.send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
+
+// `SELECT
+//   p.post_id, p.place, p.city, p.state_name, p.category, p.description,
+//   p.value_for_money, p.safety, p.overall_exp, p.user_id,
+//   u.name, u.id,
+//   (
+//     SELECT STRING_AGG(img_path, ',')
+//     FROM images i
+//     WHERE i.post_id = p.post_id
+//   ) as images
+// FROM
+//   posts p
+// JOIN
+//   users u ON u.id = p.user_id
+// ORDER BY
+//   p.user_id`
+
+
+//adminCountCityPost
+app.get('/adminCountCityPost',(req,res)=>{
+  client.query(`SELECT
+  p.city, COUNT(p)
+FROM
+ posts p
+ Group By p.city
+`,(err,result)=>{
+  if(!err){
+    res.send(result.rows)
+  }
+  else{
+    console.log(err)
+  }
+})
+})
 app.use(authenticate);
