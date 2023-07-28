@@ -12,6 +12,7 @@ import homePosts from "../views/homePosts.vue"
 import editPost from "../components/editPost.vue"
 import dashBoard from "../views/AdminPanel/dashBoard.vue"
 import postDetails from "../views/AdminPanel/postDetails.vue"
+import allPosts from "../views/AdminPanel/allPosts.vue"
 
 const routes=[
     {
@@ -75,6 +76,11 @@ const routes=[
         path: '/admin/posts',
         name: 'postDetails',
         component: postDetails
+    },
+    {
+        path: '/admin/details',
+        name: 'allPosts',
+        component: allPosts
     }
 
 

@@ -42,7 +42,6 @@
                     {{ post1.name }} <br>
                     {{ post1.email }}
                 </div>
-                
                 <div> 
                 <adminPostTemplate :post="post1" />
             </div>
