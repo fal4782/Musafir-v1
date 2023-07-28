@@ -47,7 +47,14 @@
             console.log(result.data[0])
             if(result.status==201 && result.data.length>0){
                 localStorage.setItem('user',JSON.stringify(result.data[0]))
+                console.log(result.data[0].name)
+                if(result.data[0].name=='tyu'){
+                console.log("checking")
+                this.$router.push({name:'dashBoard'})
+              }
+              else{
                 this.$router.push({name:'homePage'})
+              }
             }
             else{
               alert('Invalid user or password')

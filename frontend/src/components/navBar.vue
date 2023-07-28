@@ -3,6 +3,7 @@
      <h1 class="musafir" @click="landPage">Musafir</h1>
      <div class="nav-left navbar-button-animation">
       <ul>
+        <li><router-link to="/about" alt="About">About</router-link></li>
         <li><router-link to="/signup" alt="Sign Up">Sign Up</router-link></li>
         <li><router-link to="/login" alt="Log in">Log in</router-link></li>
       </ul>

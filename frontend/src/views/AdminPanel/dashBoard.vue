@@ -160,16 +160,27 @@ export default {
         // Line,
     },
     async created() {
+        
+        let user = JSON.parse(localStorage.getItem('user'));
+            console.log(user)
+            if (!user) {
+                console.log("hdcsb")
+                this.$router.push({name: 'firstPage'});
+            }
+            else if(user.name !== 'tyu'){
+                this.$router.push({name: 'homePage'});
+            }
+            else{
         let result = await axios.get('http://localhost:5000/adminCountUserPost')
         let result1 = await axios.get('http://localhost:5000/adminCountCityPost')
         console.log(result.data)
         console.log(result1.data)
-        let result2= await axios.get("http://localhost:5000/users");
-            this.users = result2.data; //all users  
+        let result2 = await axios.get("http://localhost:5000/users");
+        this.users = result2.data; //all users  
         const lab = []
         const points = []
         const lab1 = []
-        const points1= []
+        const points1 = []
         for (let i = 0; i < result.data.length; i++) {
             lab.push(result.data[i].name)
             points.push(result.data[i].count)
@@ -188,22 +199,22 @@ export default {
                         min: 0, // Minimum value
                         max: 10, // Maximum value
                         // You can also set other options for the y-axis here, such as step size, ticks, etc.
-                        ticks:{
-                          color:'white',
+                        ticks: {
+                            color: 'white',
                         },
                     },
                     // You can also customize the x-axis (horizontal axis) in a similar way if needed.
                     x: {
-                      ticks:{
-                          color:'white',
+                        ticks: {
+                            color: 'white',
                         },
                     },
-                    
+
                 },
                 plugins: {
-                  legend: {
-                    display: false,
-                  },
+                    legend: {
+                        display: false,
+                    },
                 },
             },
         });
@@ -225,72 +236,74 @@ export default {
                         min: 0, // Minimum value
                         max: 10, // Maximum value
                         // You can also set other options for the y-axis here, such as step size, ticks, etc.,
-                        ticks:{
-                          color:'white',
+                        ticks: {
+                            color: 'white',
                         },
                     },
                     // You can also customize the x-axis (horizontal axis) in a similar way if needed.
                     x: {
-                      ticks:{
-                          color:'white',
+                        ticks: {
+                            color: 'white',
                         },
-                        grid:{
-                          borderColor:'white',
+                        grid: {
+                            borderColor: 'white',
                         }
                     }
                 },
                 plugins: {
-                  legend: {
-                    display: false,
-                  },
+                    legend: {
+                        display: false,
+                    },
                 },
             },
         });
 
-    },
-          
-    async mounted() {
-        this.startCounters();
-        let user = JSON.parse(localStorage.getItem('user'))
-        this.username=user.name;
+    }
+        },
 
-        let result =await axios.get('http://localhost:5000/userscount')
-        // console.log(result)
-        this.userCountTarget=result.data[0].count
-        let result1=await axios.get('http://localhost:5000/postcount')
-        console.log(result1.data[0].count)
-        this.postCountTarget=result1.data[0].count
-        let result2=await axios.get('http://localhost:5000/citycount')
-        console.log(result2)
-        this.citycountTarget=result2.data[0].count
-    },
-    methods: {
-        startCounters() {
-            setInterval(() => {
-                this.incrementCounter("userCount", this.userCountTarget);
-                this.incrementCounter("postCount", this.postCountTarget);
-                this.incrementCounter("cityCount", this.citycountTarget);
-            }, 50);
-        },
-        incrementCounter(counterName, target) {
-            if (this[counterName] < target) {
-                this[counterName]++;
-            }
-        },
-        async deleteUser(id){
-            let result= await axios.post('http://localhost:5000/deleteUser',{
-                user_id:id
-            })
-            console.log("VTF",result)
-            if(result.status==201){
-                alert("user deleted successfully")
-            }
-            location.reload()
+        async mounted() {
+                this.startCounters();
+                let user = JSON.parse(localStorage.getItem('user'))
+                if(user){
+                this.username = user.name;
+
+                let result = await axios.get('http://localhost:5000/userscount')
+                // console.log(result)
+                this.userCountTarget = result.data[0].count
+                let result1 = await axios.get('http://localhost:5000/postcount')
+                console.log(result1.data[0].count)
+                this.postCountTarget = result1.data[0].count
+                let result2 = await axios.get('http://localhost:5000/citycount')
+                console.log(result2)
+                this.citycountTarget = result2.data[0].count
+                }
+            },
+            methods: {
+                startCounters() {
+                    setInterval(() => {
+                        this.incrementCounter("userCount", this.userCountTarget);
+                        this.incrementCounter("postCount", this.postCountTarget);
+                        this.incrementCounter("cityCount", this.citycountTarget);
+                    }, 50);
+                },
+                incrementCounter(counterName, target) {
+                    if (this[counterName] < target) {
+                        this[counterName]++;
+                    }
+                },
+                async deleteUser(id) {
+                    let result = await axios.post('http://localhost:5000/deleteUser', {
+                        user_id: id
+                    })
+                    console.log("VTF", result)
+                    if (result.status == 201) {
+                        alert("user deleted successfully")
+                    }
+                    location.reload()
+                }
+            },
+
         }
-    },
-
-}
-
 
 </script>
 

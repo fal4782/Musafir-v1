@@ -100,7 +100,10 @@ export default{
   },
 
         async created(){
-          console.log(this.$router.params)
+          let user=JSON.parse(localStorage.getItem('user'))
+    if(user){
+      this.$router.push({name:'homePosts'})
+      console.log(this.$router.params)
             this.city=this.$route.params.var || null;
             this.category=this.$route.params.var2 || null;
             console.log("in created",this.city, "vfv",this.category)
@@ -110,6 +113,11 @@ export default{
         })
         console.log(result.data)
         this.posts=result.data
+    }
+    else{
+      this.$router.push({name:'firstPage'})
+    }
+          
         },
 
 }
