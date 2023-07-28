@@ -107,14 +107,15 @@ export default {
     editPost(){
       this.$router.push({name:'editPost', params:{data:JSON.stringify(this.post)}})
     },
-    async deletePost(post_id){
+    async deletePost(post_id) {
       console.log("in deletePost")
-      let result=await axios.post('http://localhost:5000/deletePost',{
-         post_id:post_id
-      })
-      location.reload()
-      console.log("123",result)
-      
+      if (confirm("Do you want to delete the post?") == true) {        
+        let result = await axios.post('http://localhost:5000/deletePost', {
+          post_id: post_id
+        })
+        location.reload()
+        console.log("123", result)
+      }
     },
     toggleLike() {
   const likeButton = document.querySelector('.like-button');

@@ -1,92 +1,96 @@
 <template>
-    <div class="parent-div">
-        <div :id ="`post-${post.post_id}`" class="post-container">
-          
-            <div class="left-div">
-                <section class="carousel-container">
 
-                    <div class="slider-wrapper">
-                        <div class="slider">
-                            <div v-for="(image, index) in carouselImages" :key="index">
-                                <!-- <div v-if="image.id==post.post_id"> -->
-                                <img :id="`slide-${index}-${post.post_id}`"
-                                    :src="require(`../assets/${image.img}`)" />
-                                <!-- </div> -->
+  <div class="parent-div">
 
-                            </div>
+    <div :id="`post-${post.post_id}`" class="post-container">
 
-                            <div class="slider-nav">
-                                <a v-for="(image, index) in carouselImages" :key="index"
-                                    :href="`#slide-${index}-${post.post_id}`"></a>
-                            </div>
+      <div class="left-div">
+        <section class="carousel-container">
 
-                        </div>
-                        <!-- <div class="slider">
+          <div class="slider-wrapper">
+            <div class="slider">
+              <div v-for="(image, index) in carouselImages" :key="index">
+                <!-- <div v-if="image.id==post.post_id"> -->
+                <img :id="`slide-${index}-${post.post_id}`" :src="require(`../assets/${image.img}`)" />
+                <!-- </div> -->
+
+              </div>
+
+              <div class="slider-nav">
+                <a v-for="(image, index) in carouselImages" :key="index" :href="`#slide-${index}-${post.post_id}`"></a>
+              </div>
+
+            </div>
+            <!-- <div class="slider">
         <div v-for="image in getImagesForPost(post.post_id)" :key="image.id">
           <img :src="require(`../assets/${image.img}`)" alt="">
         </div>
       </div> -->
-                    </div>
-                </section>
-            </div>
+          </div>
+        </section>
+      </div>
 
-            <div class="right-div">
-              <div class="ud-options" v-if="isMyProfilePage">
-                <i class="fa-solid fa-pen-to-square edit" @click="editPost(post)"></i>
-                <i class="fa-solid fa-trash delete" @click="deletePost(post.post_id)"></i>
-              </div>
-              
-                <p v-if="!isMyProfilePage" class="user-name"> {{ post.name }}</p>
-
-                <div class="location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p class="location-name">{{ post.place }} || {{ post.city }} || {{ post.state_name }}</p>
-                </div>
-
-                <div class="divider"></div>
-
-                <!-- <p class="content">{{ post.description}}</p> -->
-
-                <!-- Star rating for value for money -->
-                <div class="rating">
-                    <p class="rating-title">Value for Money:</p>
-                    <span v-for="star in maxStars" :key="star">
-                        <i class="fa-solid"
-                            :class="{ 'fa-star': star <= post.value_for_money, 'fa-star-empty': star > post.value_for_money }"></i>
-                    </span>
-                </div>
-
-                <!-- Star rating for safety & security-->
-                <div class="rating">
-                    <p class="rating-title">Safety & Security:</p>
-                    <span v-for="star in maxStars" :key="star">
-                        <i class="fa-solid"
-                            :class="{ 'fa-star': star <= post.safety, 'fa-star-empty': star > post.safety }"></i>
-                    </span>
-                </div>
-
-                <!-- Star rating for overall exp -->
-                <div class="rating">
-                    <p class="rating-title">Overall Experience:</p>
-                    <span v-for="star in maxStars" :key="star">
-                        <i class="fa-solid"
-                            :class="{ 'fa-star': star <= post.overall_exp, 'fa-star-empty': star > post.overall_exp }"></i>
-                    </span>
-                </div>
-            </div>
+      <div class="right-div">
+        <div class="ud-options">
+          <i class="fa-solid fa-pen-to-square edit" @click="editPost(post)"></i>
+          <i class="fa-solid fa-trash delete" @click="deletePost(post.post_id)"></i>
         </div>
+
+        <!-- <p v-if="!isMyProfilePage" class="user-name"> {{ post.name }}</p> -->
+
+        <div class="location">
+          <i class="fa-solid fa-location-dot"></i>
+          <p class="location-name">{{ post.place }} || {{ post.city }} || {{ post.state_name }}</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="content">{{ post.description}}</p>
+
+        <!-- Star rating for value for money -->
+        <!-- <div class="rating">
+                  <p class="rating-title">Value for Money:</p>
+                  <span v-for="star in maxStars" :key="star">
+                    <i class="fa-solid"
+                      :class="{ 'fa-star': star <= post.value_for_money, 'fa-star-empty': star > post.value_for_money }"></i>
+                  </span>
+                </div> -->
+
+        <!-- Star rating for safety & security-->
+        <!-- <div class="rating">
+                  <p class="rating-title">Safety & Security:</p>
+                  <span v-for="star in maxStars" :key="star">
+                    <i class="fa-solid"
+                      :class="{ 'fa-star': star <= post.safety, 'fa-star-empty': star > post.safety }"></i>
+                  </span>
+                </div> -->
+
+        <!-- Star rating for overall exp -->
+        <!-- <div class="rating">
+                  <p class="rating-title">Overall Experience:</p>
+                  <span v-for="star in maxStars" :key="star">
+                    <i class="fa-solid"
+                      :class="{ 'fa-star': star <= post.overall_exp, 'fa-star-empty': star > post.overall_exp }"></i>
+                  </span>
+                </div> -->
+      </div>
     </div>
+  </div>
 
 </template>
 
 <script>
 import axios from 'axios';
+
 import {
   onMounted
 } from 'vue';
 
 export default {
   name: 'postChildTemplate',
+  components:{
+    
+  },
   data() {
     return {
       carouselImages: [],
@@ -109,12 +113,13 @@ export default {
     },
     async deletePost(post_id){
       console.log("in deletePost")
-      let result=await axios.post('http://localhost:5000/deletePost',{
-         post_id:post_id
-      })
-      location.reload()
-      console.log("123",result)
-      
+      if (confirm("Do you want to delete the post?") == true) {        
+        let result = await axios.post('http://localhost:5000/deletePost', {
+          post_id: post_id
+        })
+        location.reload()
+        console.log("123", result)
+      }
     },
     toggleLike() {
   const likeButton = document.querySelector('.like-button');
@@ -244,21 +249,25 @@ font-family: Arial, Helvetica, sans-serif;
     text-align:justify;
     letter-spacing: 0.02cm;
     line-height: 20px;
+    height: 120px;
+    overflow-y: auto;
 }
 
-.rating {
-    display: flex;
-    align-items: center;
-    margin-top: 0px;
-    margin-left: 30px;
-    padding: 0;
-  }
+.content::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
 
-.rating-title {
-    
-    margin:6px 10px 6px 0;
-    color: rgba(255, 255, 255, 0.8);
-  }
+/* (the draggable part) */
+.content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background-color: #333;
+  cursor: pointer; /*not working*/
+}
 
 
 .carousel-container{

@@ -1,12 +1,16 @@
 <template>
     <nav>
-     <h1 class="musafir" @click="homePage">Musafir</h1>
+     <h1 class="musafir">Musafir</h1>
      <div class="nav-left navbar-button-animation">
       <ul>
-        <li><router-link to="/about">About</router-link></li>
-        <li><router-link to="/posts">Feed</router-link></li>
-        <li><router-link to="/profile">Profile</router-link></li>
-        <li><a v-on:click="logout " href="/login">Logout</a></li>  
+        <li>
+          <router-link to="/admin/dashboard">Dashboard</router-link>
+        </li>
+        <li>
+          <router-link to="/admin/posts">Users</router-link>
+        </li>
+        <!-- <li><router-link to="/profile">Profile</router-link></li> -->
+        <li><a v-on:click="logout " href="/login">Logout</a></li>
       </ul>
     </div>
 </nav>
@@ -44,12 +48,10 @@ nav {
 }
 
 .musafir{
-  
   font-family: 'Satisfy', cursive;
   font-size: 40px;
   margin: .5%;
   padding: 0;
-  cursor: pointer;
 }
 .nav-left ul,
 .nav-right form {

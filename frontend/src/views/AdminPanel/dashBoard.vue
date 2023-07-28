@@ -514,13 +514,6 @@ export default {
   transition: transform 0.2s ease;
 }
 
-.stat-box:hover{
-  border-radius: 30px;
-  box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.7  8);
-  transform: scale(1.05);
-  border: 1px solid rgba(110, 109, 109, 0.7);
-  cursor: pointer;
-}
 
 .icon {
   font-size:25px;
