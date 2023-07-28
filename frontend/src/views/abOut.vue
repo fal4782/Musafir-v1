@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navBar1 />
+        <navBar />
         <h1>About Us</h1>
         <div class="about1">
             <p>Welcome to Musafir-The Travel Log, the ultimate destination for travel enthusiasts and adventure seekers.
@@ -91,7 +91,7 @@
    
    <script>
    import axios from 'axios';
-import navBar1 from '../components/navBar1.vue';
+import navBar from '../components/navBar.vue';
    import '@fortawesome/fontawesome-free/css/all.css';
    import FooTer from "../components/FooTer.vue";
    export default {
@@ -104,7 +104,7 @@ import navBar1 from '../components/navBar1.vue';
         }
      },
      components:{
-    navBar1,
+    navBar,
     FooTer
 },
 methods:{
@@ -125,7 +125,16 @@ methods:{
         let result2=await axios.get('http://localhost:5000/citycount')
         console.log(result2)
         this.citycount=result2.data[0].count
-     }
+     },
+    //  created(){
+    //     let user=JSON.parse(localStorage.getItem('user'))
+    // if(user){
+    //   this.$router.push({name:'abOut'})
+    // }
+    // else{
+    //   this.$router.push({name:'firstPage'})
+    // }
+    //  }
    }
    </script>
    

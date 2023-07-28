@@ -4,7 +4,6 @@
      <div class="nav-left navbar-button-animation">
       <ul>
         <!-- <li><router-link to="/products">Home</router-link></li> -->
-        <li><router-link to="/about">About</router-link></li>
         <li><router-link to="/posts">Feed</router-link></li>
         <li><router-link to="/profile">Profile</router-link></li>
         <li><a v-on:click="logout " href="/login">Logout</a></li>  

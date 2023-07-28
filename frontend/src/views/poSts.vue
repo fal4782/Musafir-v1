@@ -45,6 +45,15 @@ export default {
       });
     },
   },
+  created(){
+    let user=JSON.parse(localStorage.getItem('user'))
+    if(user){
+      this.$router.push({name:'poSts'})
+    }
+    else{
+      this.$router.push({name:'firstPage'})
+    }
+  }
 }
 
 </script>

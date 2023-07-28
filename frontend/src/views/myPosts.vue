@@ -93,6 +93,7 @@ export default{
    
   async mounted(){
     let user= JSON.parse(localStorage.getItem('user'))
+    if(user){
     this.username=user.name
     console.log('username',this.username)
     let result=await axios.post('http://localhost:5000/userPosts',{
@@ -100,14 +101,17 @@ export default{
     })
     console.log(result.data)
     this.posts=result.data
-
-
-    window.addEventListener('beforeunload', this.beforeUnloadHandler);
+  }
   },
-  beforeUnmount() {
-    // Remove the 'beforeunload' event listener to prevent memory leaks
-    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
-  },
+  created(){
+    let user=JSON.parse(localStorage.getItem('user'))
+    if(user){
+      this.$router.push({name:'myPosts'})
+    }
+    else{
+      this.$router.push({name:'firstPage'})
+    }
+  }
 }
 </script>
 

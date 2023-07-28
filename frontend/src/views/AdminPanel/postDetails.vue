@@ -68,6 +68,7 @@ export default{
         let result=await axios.get('http://localhost:5000/userVisePosts')
         console.log(result)
         this.usersPost=result.data
+        
     }
 }
 

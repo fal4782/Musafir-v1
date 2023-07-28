@@ -173,6 +173,10 @@ export default {
     // Fetch recent posts from the database and update the 'recentPosts' data
     // For demonstration purposes, we'll populate the data manually
     // 
+    let user=JSON.parse(localStorage.getItem('user'))
+    if(user){
+      this.$router.push({name:'homePage'})
+    
     let result = await axios.post('http://localhost:5000/recentPosts')
     console.log('jibohrfgctnbixyuuuuuuuuuuvybcisk')
     console.log(result.data)
@@ -195,6 +199,10 @@ export default {
       })
     }
     console.log("resuktsdvbbsa", this.recentPosts)
+  }
+    else{
+      this.$router.push({name:'firstPage'})
+    }
   },
   // setup() {
   //   onMounted(() => {

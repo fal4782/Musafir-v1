@@ -14,7 +14,7 @@
         <img src="https://i.ibb.co/wJGzYTt/PFP.png" alt="Profile Icon">
         <div class="username-category">
           <p class="username">{{ username }}</p>
-          <select id="category" v-model="category">
+          <select id="category" v-model="category" required>
             <option id="default" hidden selected value="">Choose Category</option>
             <option value="Historical">Historical</option>
             <option value="Gardens">Gardens</option>
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <textarea v-model="description"
+      <textarea v-model="description" required
         placeholder="Been exploring? Share your experience now! (No &apos; or &quot; allowed in the text box :3)
 
 Please also include:
@@ -45,7 +45,7 @@ Happy writing!"></textarea>
 
 
       <div class="input-row">
-        <input type="text" v-model="place" placeholder="Enter the Place">
+        <input type="text" v-model="place" placeholder="Enter the Place" required>
         <input type="text" v-model="city" placeholder="Enter the City">
         <input type="text" v-model="state" placeholder="Enter the State">
       </div>
