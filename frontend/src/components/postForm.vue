@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <textarea v-model="description" required
+      <textarea v-model="description" @input="hideErrorMessage"
         placeholder="Been exploring? Share your experience now! (No &apos; or &quot; allowed in the text box :3)
 
 Please also include:
@@ -41,13 +41,13 @@ Please also include:
 
 - Get creative and have fun with your travel stories! 
 
-Happy writing!"></textarea>
+Happy writing!" ></textarea>
 
 
       <div class="input-row">
-        <input type="text" v-model="place" placeholder="Enter the Place" required>
-        <input type="text" v-model="city" placeholder="Enter the City">
-        <input type="text" v-model="state" placeholder="Enter the State">
+        <input type="text" v-model="place" @input="hideErrorMessage" placeholder="Enter the Place" required>
+        <input type="text" v-model="city" @input="hideErrorMessage" placeholder="Enter the City">
+        <input type="text" v-model="state" @input="hideErrorMessage" placeholder="Enter the State">
       </div>
       <div class="image-input">
         <label for="upload-images" class="upload-btn">
@@ -73,13 +73,13 @@ Happy writing!"></textarea>
 
         <!-- <label for="">Safety & Security</label> -->
         <select id="safety" v-model="safety">
-          <option id="default" hidden selected value="">Safety & Security</option>
+          <option id="default" hidden selected value="">Safey & Security</option>
           <option value=1>1</option>
           <option value=2>2</option>
           <option value=3>3</option>
           <option value=4>4</option>
           <option value=5>5</option>
-        </select>
+        </select>t
 
         <!-- <label for="">Overall Experience</label> -->
         <select id="overall_exp" v-model="overall_exp">
@@ -91,8 +91,8 @@ Happy writing!"></textarea>
           <option value=5>5</option>
         </select>
       </div>
-
-      <button @click="submit">SUBMIT</button>
+      <p id="error" v-if="showErrorMessage" class="error-message">Please fill in all details.</p>
+      <button @click="onSubmitClick">SUBMIT</button>
     </div>
     <!-- <div>
       <button @click="getPost">Get Post</button>
@@ -131,7 +131,8 @@ export default{
             username:'',
             posts:[],
             images:[],
-            files:[]
+            files:[],
+            showErrorMessage: false,
         }
     },
     methods:{
@@ -148,6 +149,19 @@ export default{
       this.$emit("close");
     },
     
+    onSubmitClick(){
+      if(!!this.city && !!this.place && !!this.state && !!this.description && !!this.category && !!this.value_for_money && !!this.safety && !!this.overall_exp && !!this.files.length){
+        console.log(!!this.city && !!this.place && !!this.state && !!this.description && !!this.category && !!this.value_for_money && !!this.safety && !!this.overall_exp && !!this.files.length);
+        this.submit();
+      }else{
+        this.showErrorMessage=true;
+      }
+    },
+    hideErrorMessage() {
+      // Hide the error message when the user starts typing
+      this.showErrorMessage = false;
+    },
+
 
     async submit() {
   const formData = new FormData();
@@ -446,6 +460,13 @@ button:hover {
   /* border: 2px solid white !important; */
   /* color: white; */
   transform: scale(1.05);
+}
+
+#error{
+  color:#db262f;
+  margin-top:10px;
+  margin-bottom: 0px;
+  text-align: center;
 }
 
 

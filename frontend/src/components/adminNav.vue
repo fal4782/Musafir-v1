@@ -1,6 +1,6 @@
 <template>
     <nav>
-     <h1 class="musafir">Musafir</h1>
+     <h1 class="musafir" @click="dashBoard">Musafir</h1>
      <div class="nav-left navbar-button-animation">
       <ul>
         <li>
@@ -22,8 +22,8 @@
    export default {
      name: 'navBar',
      methods:{
-        homePage(){
-          this.$router.push({name:'homePage'})
+        dashBoard(){
+          this.$router.push({name:'dashBoard'})
         },
         logout(){
           localStorage.clear();
@@ -52,6 +52,7 @@ nav {
   font-size: 40px;
   margin: .5%;
   padding: 0;
+  cursor: pointer;
 }
 .nav-left ul,
 .nav-right form {
@@ -78,10 +79,6 @@ a {
   color: #fff;
   text-decoration: none;
 }
-
-/* a:hover { */
- /* text-decoration: underline; */
-/* }  */
 
 div.navbar-button-animation a{
   color: rgba(255, 255, 255, 0.7);
