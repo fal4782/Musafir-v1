@@ -36,8 +36,7 @@
           <i class="fa-solid fa-trash delete" @click="deletePost(post.post_id)"></i>
         </div>
 
-        <!-- <p v-if="!isMyProfilePage" class="user-name"> {{ post.name }}</p> -->
-
+        <!-- <p v-if="isAllPost" class="user-name"> {{ post.name }}</p> -->
         <div class="location">
           <i class="fa-solid fa-location-dot"></i>
           <p class="location-name">{{ post.place }} || {{ post.city }} || {{ post.state_name }}</p>
@@ -98,12 +97,13 @@ export default {
     }
   },
   computed:{
-    isMyProfilePage(){
-       return window.location.pathname==='/profile'
+    // isMyProfilePage(){
+    //    return window.location.pathname==='/admin/details'
        
-    },
+    // },
     isAllPost(){
-      return window.location.pathname==='/posts'
+        console.log(window.location.pathname==='/admin/details')
+      return window.location.pathname==='/admin/details'
     }
   },
   props: ['post'],

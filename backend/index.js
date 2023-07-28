@@ -489,4 +489,56 @@ ORDER BY
     }
   })
 })
+
+
+//adminDefaultPosts
+app.get('/adminDefaultPosts',(req,res)=>{
+  client.query(`Select p.post_id, p.place, p.city, p.state_name, p.category, p.description,
+  p.value_for_money, p.safety, p.overall_exp, p.user_id, string_agg(i.img_path,',') as images,u.name from posts p 
+  join images i on p.post_id=i.post_id 
+  join users u on u.id=p.user_id
+  group by p.post_id,u.name order by p.place`,(err,result)=>{
+    if(!err){
+      //console.log('recentPost',result.rows)
+      res.status(201).send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
+
+//adminRecentPosts
+app.get('/adminRecentPosts',(req,res)=>{
+  client.query(`Select p.post_id, p.place, p.city, p.state_name, p.category, p.description,
+  p.value_for_money, p.safety, p.overall_exp, p.user_id, string_agg(i.img_path,',') as images,u.name from posts p 
+  join images i on p.post_id=i.post_id 
+  join users u on u.id=p.user_id
+  group by p.post_id,u.name order by p.post_id desc`,(err,result)=>{
+    if(!err){
+      //console.log('recentPost',result.rows)
+      res.status(201).send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
+
+//adminCitiesPost
+app.get('/adminCitiesVisePosts',(req,res)=>{
+  client.query(`select city,place, state_name, description, 
+  safety,overall_exp,value_for_money,Count(city) as cnt,string_agg(i.img_path,',') as images from posts p
+  join images i on i.post_id=p.post_id
+  group by p.city,place,state_name,description,safety,overall_exp,value_for_money
+  order by Count(city) desc;`,(err,result)=>{
+    if(!err){
+      //console.log('recentPost',result.rows)
+      res.status(201).send(result.rows)
+    }
+    else{
+      console.log(err)
+    }
+  })
+})
 app.use(authenticate);
