@@ -13,7 +13,8 @@
                 <h1>Musafir</h1>
                 <input type="text" placeholder="Email" v-model="email"><br>
                 <input type="password" placeholder="Enter your Password" v-model="password"><br>
-                <button @click="login">LOG IN</button>
+                <button @click="onLoginClick">LOG IN</button>
+                <p id="error" v-if="showErrorMessage" class="error-message">Please fill in all required fields.</p>
                 <p>
                     Haven't made an account yet? <router-link to="/signup">Sign Up.</router-link>
                 </p>
@@ -36,10 +37,18 @@
         return{
             email:'',
             password:'',
-
+            showErrorMessage: false,
         }
      },
      methods:{
+      onLoginClick() {
+      if (!!this.email && !!this.password) {
+        console.log(!!this.email && !!this.password)
+        this.login();
+      } else {
+        this.showErrorMessage = true;
+        }
+      },
         async login(){
             console.log(this.email, this.password)
             let result =await axios.post("http://localhost:5000/login",{email:this.email, password:this.password})
@@ -48,7 +57,7 @@
             if(result.status==201 && result.data.length>0){
                 localStorage.setItem('user',JSON.stringify(result.data[0]))
                 console.log(result.data[0].name)
-                if(result.data[0].name=='tyu'){
+                if(result.data[0].name=='Admin'){
                 console.log("checking")
                 this.$router.push({name:'dashBoard'})
               }
@@ -205,6 +214,11 @@
   color: #726095;  
 }
 
+#error{
+  color:#db262f;
+  margin-top:10px;
+  margin-bottom: 0px;
+}
 
 @media (max-width: 600px) {
   .left-div {

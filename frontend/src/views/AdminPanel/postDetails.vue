@@ -39,7 +39,7 @@
             </div> -->
             <div v-for="post1 in usersPost" :key="post1.post_id">
                 <div class="user-info">
-                    {{ post1.name }}
+                    {{ post1.name }} <br>
                     {{ post1.email }}
                 </div>
                 

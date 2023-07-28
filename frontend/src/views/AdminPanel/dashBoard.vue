@@ -165,7 +165,7 @@ export default {
                 console.log("hdcsb")
                 this.$router.push({name: 'firstPage'});
             }
-            else if(user.name !== 'tyu'){
+            else if(user.name !='Admin'){
                 this.$router.push({name: 'homePage'});
             }
             else{
@@ -299,15 +299,14 @@ export default {
                     }
                 },
                 async deleteUser(id) {
-                    let result = await axios.post('http://localhost:5000/deleteUser', {
+                    
+                  if(confirm("Do you want to delete this user?")){
+                  let result = await axios.post('http://localhost:5000/deleteUser', {
                         user_id: id
-                    })
+                  })
                     console.log("VTF", result)
-                    if (result.status == 201) {
-                        alert("user deleted successfully")
-                    }
                     location.reload()
-                }
+                }}
             },
 
         }
