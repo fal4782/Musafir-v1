@@ -1,32 +1,27 @@
 <template>
-
   <!-- <navBar1 /> -->
   <div class="outer-div">
     <div class="signup-container">
-
       <div class="left-div">
         <div>
           <h1>Discover. Share. Inspire.</h1>
           <p>Creating memories that last a lifetime.</p>
         </div>
       </div>
-
-
       <div class="right-div">
         <h1>Musafir</h1>
         <input type="text" placeholder="Name" v-model="name"><br>
         <input type="text" placeholder="Email" v-model="email"><br>
         <input type="password" placeholder="Create Password" v-model="password"><br>
-        <button @click="signup">SIGN UP</button>
+        <button @click="onSignUpClick">SIGN UP</button>
+        <p id="error" v-if="showErrorMessage" class="error-message">Please fill in all required fields.</p>
         <p>
-          Already signed up? <router-link to="/login">Log In.</router-link>
+          Already signed upYour? <router-link to="/login">Log In.</router-link>
         </p>
       </div>
-
     </div>
   </div>
 </template>
-   
 <script>
   //  import navBar1 from "../components/navBar1.vue"
   import axios from 'axios'
@@ -40,10 +35,18 @@ export default {
       name: '',
       email: '',
       password: '',
-
+      showErrorMessage: false,
     }
   },
   methods: {
+    onSignUpClick() {
+      if (!!this.name && !!this.email && !!this.password) {
+        console.log(!!this.name && !!this.email && !!this.password)
+        this.signup();
+      } else {
+        this.showErrorMessage = true;
+      }
+    },
     async signup() {
       // do something with the username, email, password
       console.log('Signing up with:', this.name, this.email, this.password);
@@ -68,29 +71,22 @@ export default {
      {  console.log("dgynsgbfuyfyunfsgn")
         localStorage.setItem('user',JSON.stringify(res.data[0]));
           this.$router.push({name:'homePage'})
-        
         // else if(res.data[0].type=='admin'){
         //   this.$router.push({name:'addProduct'})
         // }
-    
     }
     },
   }
-
-} 
+}
 </script>
-   
 <style scoped>
-
 @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=Unbounded&display=swap');
-
-
 .outer-div {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
   background-image: url('https://i.ibb.co/h8sH8LF/bg-2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -98,17 +94,13 @@ export default {
   height: 100vh;
   width: 100vw;
 }
-
-
 .signup-container{
   width: 90vw;
   height: 90vh;
   background-color: #161616;
   display: flex;
   border-radius: 15px;
-  
 }
-
 .left-div {
   flex: 1.5;
   background-image: url('https://i.ibb.co/NSmF12D/forest-1866544-1280.jpg');
@@ -121,16 +113,10 @@ export default {
   display: flex;
   align-items: center;
 }
-
-
-
-
 .left-div img {
   max-width: 100%;
   max-height: 100%;
 }
-
-
 .right-div{
   flex:1;
   display: flex;
@@ -138,9 +124,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  
 }
-
 .right-div input[type="text"],
 .right-div input[type="password"] {
   background-color: black;
@@ -153,40 +137,32 @@ export default {
   font-size: 20px;
   border-radius: 3px;
 }
-
 .right-div input::placeholder {
   color: rgba(250, 250, 250, 0.7);
   font-size: 16px;
 }
-
-
 .right-div h1,
 .right-div p,
 .left-div h1,
 .left-div p {
   color: white;
 }
-
 .left-div h1, .left-div p{
   margin-left: 30px;
 }
-
 .left-div h1{
   font-family: 'Unbounded', cursive;
   font-size: 50px;
 }
-
 .left-div p{
   font-family: 'Comfortaa', cursive;
   font-size: 30px;
   font-weight: 600;
 }
-
 .right-div h1{
   font-family: 'Satisfy', cursive;
   font-size: 70px;
 }
-
 .right-div button {
   background-color: #458468;
   color: white;
@@ -198,33 +174,32 @@ export default {
   transition: all 0.3s;
   border-radius: 30px;
 }
-
 .right-div button:hover {
   transform: scale(1.1);
 }
-
 .right-div p {
   font-family: Arial, sans-serif;
   font-size: 16px;
   margin-top: 20px;
 }
-
 .right-div a{
   color: white;
   text-decoration: underline;
   cursor: pointer;
 }
-
 .right-div a:hover {
-  color: #458468;  
+  color: #458468;
 }
 
+#error{
+  color:#db262f;
+  margin-top:10px;
+  margin-bottom: 0px;
+}
 
 @media (max-width: 600px) {
   .left-div {
     display: none;
   }
 }
-
-
 </style>
