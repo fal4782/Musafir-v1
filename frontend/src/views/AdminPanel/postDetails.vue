@@ -1,5 +1,7 @@
 <template>
-<div>
+    
+<div class="parent-div">
+    <adminNav />
     <!-- <div class="user-list-container">
                 <h3>Users</h3>
                 <div class="scrollable-list">
@@ -36,7 +38,14 @@
                 </div>
             </div> -->
             <div v-for="post1 in usersPost" :key="post1.post_id">
+                <div class="user-info">
+                    {{ post1.name }}
+                    {{ post1.email }}
+                </div>
+                
+                <div> 
                 <adminPostTemplate :post="post1" />
+            </div>
             </div>
 </div>
 </template>
@@ -44,6 +53,7 @@
 <script>
 import axios from "axios"
 import adminPostTemplate from "../../components/adminPostTemplate.vue"
+import adminNav from '../../components/adminNav.vue';
 export default{
     data(){
         return{
@@ -51,7 +61,8 @@ export default{
         }
     },
     components:{
-        adminPostTemplate
+        adminPostTemplate,
+        adminNav,
     },
     async created(){
         let result=await axios.get('http://localhost:5000/userVisePosts')
@@ -62,7 +73,17 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
+
+.parent-div{
+    background-image: url('https://i.ibb.co/dmr3yCD/seemless-blackbg.jpg');
+    background-repeat: repeat;
+    background-size: 20%;
+}
+
+.user-info{
+    color:white;
+}
 
 
 </style>

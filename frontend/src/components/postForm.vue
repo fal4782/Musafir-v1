@@ -401,7 +401,7 @@ textarea::-webkit-scrollbar-thumb:hover {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   padding-left: 30px;
-  margin-top: 5px;
+  margin-top: 0px;
 }
 
 #file-names li{
