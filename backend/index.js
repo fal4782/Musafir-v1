@@ -167,7 +167,7 @@ app.post("/login", (req, res) => {
     } else if (result1) {
       console.log('Passwords match!',result1);
     } else {
-      console.log('Passwords do not match!');
+      console.log('Password does not match!');
     }
 
     if (result1 && result.rows[0] ) {
@@ -188,7 +188,7 @@ app.post("/login", (req, res) => {
     // res.status(201).send(result.rows);
     else {
       console.log(err);
-      res.send("invalid user or password");
+      res.send("Invalid user or password");
     }
   });
 
@@ -226,6 +226,8 @@ app.get('/postcount',(req,res)=>{
   })
 })
 
+
+//city count
 app.get('/citycount',(req,res)=>{
   client.query(`select count(distinct(city)) from posts`,(err,result)=>{
     if(!err){
@@ -467,7 +469,7 @@ app.get('/userVisePosts',(req,res)=>{
   client.query(`SELECT
   p.post_id, p.place, p.city, p.state_name, p.category, p.description,
   p.value_for_money, p.safety, p.overall_exp, p.user_id,
-  u.name, u.id,
+  u.name,u.email, u.id,
   (
     SELECT STRING_AGG(img_path, ',')
     FROM images i

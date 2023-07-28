@@ -93,7 +93,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -157,7 +156,6 @@ export default {
     },
     components: {
         adminNav,
-        // Line,
     },
     async created() {
         
@@ -200,16 +198,22 @@ export default {
                         max: 10, // Maximum value
                         // You can also set other options for the y-axis here, such as step size, ticks, etc.
                         ticks: {
-                            color: 'white',
+                          color: 'white',
                         },
-                    },
-                    // You can also customize the x-axis (horizontal axis) in a similar way if needed.
-                    x: {
+                        grid: {
+                          color: '#ffffff10',
+                        },
+                      },
+                      // You can also customize the x-axis (horizontal axis) in a similar way if needed.
+                      x: {
                         ticks: {
-                            color: 'white',
+                          color: 'white',
                         },
-                    },
-
+                        grid: {
+                          color: '#ffffff10',
+                        },
+                      },
+                    
                 },
                 plugins: {
                     legend: {
@@ -239,15 +243,18 @@ export default {
                         ticks: {
                             color: 'white',
                         },
+                        grid: {
+                          color: '#ffffff10',
+                        },
                     },
                     // You can also customize the x-axis (horizontal axis) in a similar way if needed.
                     x: {
-                        ticks: {
-                            color: 'white',
-                        },
-                        grid: {
-                            borderColor: 'white',
-                        }
+                      ticks:{
+                          color:'white',
+                      },
+                      grid:{
+                        color:'#ffffff10',
+                      },                      
                     }
                 },
                 plugins: {
@@ -376,7 +383,7 @@ export default {
 }
 
 .user-post-graph, .city-post-graph{
-    padding:40px;
+    padding:30px 20px;
     background-color: #161616;
     border-radius: 10px;
     box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
@@ -431,7 +438,7 @@ export default {
 }
 
 .scrollable-list {
-  height: 300px;
+  height: 400px;
   overflow-y: auto; /* Add a scrollbar when content overflows */
   color:white;
   background-color: transparent;
@@ -520,13 +527,6 @@ export default {
   transition: transform 0.2s ease;
 }
 
-.stat-box:hover{
-  border-radius: 30px;
-  box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.7  8);
-  transform: scale(1.05);
-  border: 1px solid rgba(110, 109, 109, 0.7);
-  cursor: pointer;
-}
 
 .icon {
   font-size:25px;
@@ -567,8 +567,7 @@ export default {
   font-family:Arial;
   color:white;
   font-weight:bold;
-  font-size:22px;
+  font-size:20px;
   letter-spacing: 0.03cm;
-
 }
 </style>

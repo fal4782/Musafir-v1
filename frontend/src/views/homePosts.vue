@@ -49,7 +49,12 @@
     
     <noPosts v-else />
 
-    
+    <div class="overlay-button" @click="scrollToTop">
+      <button>
+        <i class="fas fa-arrow-up"></i>
+      </button>
+    </div>
+
     <FooTer />
   </div>
 </template>
@@ -92,11 +97,11 @@ export default{
         console.log("jhdsggvfhfv",this.posts)
         },
         scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    },
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+        },
   },
 
         async created(){
