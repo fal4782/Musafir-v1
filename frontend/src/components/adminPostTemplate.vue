@@ -21,11 +21,7 @@
               </div>
 
             </div>
-            <!-- <div class="slider">
-        <div v-for="image in getImagesForPost(post.post_id)" :key="image.id">
-          <img :src="require(`../assets/${image.img}`)" alt="">
-        </div>
-      </div> -->
+           
           </div>
         </section>
       </div>
@@ -46,32 +42,7 @@
 
         <p class="content">{{ post.description}}</p>
 
-        <!-- Star rating for value for money -->
-        <!-- <div class="rating">
-                  <p class="rating-title">Value for Money:</p>
-                  <span v-for="star in maxStars" :key="star">
-                    <i class="fa-solid"
-                      :class="{ 'fa-star': star <= post.value_for_money, 'fa-star-empty': star > post.value_for_money }"></i>
-                  </span>
-                </div> -->
-
-        <!-- Star rating for safety & security-->
-        <!-- <div class="rating">
-                  <p class="rating-title">Safety & Security:</p>
-                  <span v-for="star in maxStars" :key="star">
-                    <i class="fa-solid"
-                      :class="{ 'fa-star': star <= post.safety, 'fa-star-empty': star > post.safety }"></i>
-                  </span>
-                </div> -->
-
-        <!-- Star rating for overall exp -->
-        <!-- <div class="rating">
-                  <p class="rating-title">Overall Experience:</p>
-                  <span v-for="star in maxStars" :key="star">
-                    <i class="fa-solid"
-                      :class="{ 'fa-star': star <= post.overall_exp, 'fa-star-empty': star > post.overall_exp }"></i>
-                  </span>
-                </div> -->
+        
       </div>
     </div>
   </div>
