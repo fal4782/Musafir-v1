@@ -131,52 +131,68 @@
       
   
       async editData() {
-    const formData = new FormData();
-    // console.log('image',this.image.length)
-    // for(let i=0;i<this.image.length;i++){
-    //   formData.append('avatar', this.image[i]);
-    // }
-    let userid=JSON.parse(localStorage.getItem('user')).id
-    formData.append('place',this.place)
-    formData.append('city',this.city)
-    formData.append('state',this.state)
-    formData.append('description',this.description)
-    formData.append('category',this.category)
-    formData.append('value_for_money',parseInt(this.value_for_money))
-    formData.append('safety',parseInt(this.safety))
-    formData.append('overall_exp',parseInt(this.overall_exp))
-    formData.append('user_id',userid)
-    formData.append('post_id',this.post_id)
-    //console.log(userid)
-     // Assuming "selectedFile" contains the file object
-    console.log(formData)
-    try {
-    //   const result = await axios.post('http://localhost:5000/edit', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   }
-    const result=await axios.post('http://localhost:5000/edit',{
-    place:this.place,
-    city:this.city,
-    state:this.state,
-    description:this.description,
-    category:this.category,
-    value_for_money:parseInt(this.value_for_money),
-    safety:parseInt(this.safety),
-    overall_exp:parseInt(this.overall_exp),
-    user_id:userid,
-    post_id:this.post_id
-    });
-      console.log(result);
-      // Handle the response from the server
-    } catch (error) {
-      console.error(error);
-      // Handle the error
-    }
-    this.$emit("editData");
-  
-  },
+
+        if(confirm("Are you done editing your post?")){
+
+        const formData = new FormData();
+        // console.log('image',this.image.length)
+        // for(let i=0;i<this.image.length;i++){
+        //   formData.append('avatar', this.image[i]);
+        // }
+        let userid = JSON.parse(localStorage.getItem('user')).id
+        formData.append('place', this.place)
+        formData.append('city', this.city)
+        formData.append('state', this.state)
+        formData.append('description', this.description)
+        formData.append('category', this.category)
+        formData.append('value_for_money', parseInt(this.value_for_money))
+        formData.append('safety', parseInt(this.safety))
+        formData.append('overall_exp', parseInt(this.overall_exp))
+        formData.append('user_id', userid)
+        formData.append('post_id', this.post_id)
+        //console.log(userid)
+        // Assuming "selectedFile" contains the file object
+        console.log(formData)
+        if (this.username == "Admin") {
+            console.log("Checkkkkkk", this.username);
+            this.$router.push({
+              name: 'postDetails'
+            })
+          } else {
+            this.$router.push({
+              name: 'myPosts'
+            })
+          }
+
+        try {
+          //   const result = await axios.post('http://localhost:5000/edit', formData, {
+          //     headers: {
+          //       'Content-Type': 'multipart/form-data'
+          //     }
+          //   }
+          const result = await axios.post('http://localhost:5000/edit', {
+            place: this.place,
+            city: this.city,
+            state: this.state,
+            description: this.description,
+            category: this.category,
+            value_for_money: parseInt(this.value_for_money),
+            safety: parseInt(this.safety),
+            overall_exp: parseInt(this.overall_exp),
+            user_id: userid,
+            post_id: this.post_id
+          });
+          console.log(result);
+          
+          
+          // Handle the response from the server
+        } catch (error) {
+          console.error(error);
+          // Handle the error
+        }
+        // this.$emit("editData");
+      }
+      },
   
       },
       mounted(){
