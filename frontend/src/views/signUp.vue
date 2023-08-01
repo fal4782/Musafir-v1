@@ -10,9 +10,9 @@
       </div>
       <div class="right-div">
         <h1>Musafir</h1>
-        <input type="text" placeholder="Name" v-model="name"><br>
-        <input type="text" placeholder="Email" v-model="email"><br>
-        <input type="password" placeholder="Create Password" v-model="password"><br>
+        <input type="text" placeholder="Name" @input="hideErrorMessage" v-model="name"><br>
+        <input type="text" placeholder="Email" @input="hideErrorMessage" v-model="email"><br>
+        <input type="password" placeholder="Create Password" @input="hideErrorMessage" v-model="password"><br>
         <button @click="onSignUpClick">SIGN UP</button>
         <p id="error" v-if="showErrorMessage" class="error-message">Please fill in all required fields.</p>
         <p>
@@ -46,6 +46,10 @@ export default {
       } else {
         this.showErrorMessage = true;
       }
+    },
+    hideErrorMessage() {
+      // Hide the error message when the user starts typing
+      this.showErrorMessage = false;
     },
     async signup() {
       // do something with the username, email, password
