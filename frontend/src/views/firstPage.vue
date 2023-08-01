@@ -15,10 +15,13 @@
           <div id="input-2">
             <!-- <label for="category">Choose a category:</label><br> -->
             <select id="category">
-              <option disabled selected value="Catergoies">Choose Category</option>
+              <option hidden selected value="">Choose Category</option>
               <option value="Historical">Historical</option>
               <option value="Gardens">Gardens</option>
               <option value="Worship Places">Worship Places</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Food & Beverages">Food & Beverages</option>
+              <option value="Others">Others</option>
             </select>
           </div>
 
@@ -239,7 +242,6 @@ padding: 16px 24px;
 background-color: transparent !important;
 color: white !important;
 border: 2px solid white;
-/* border-radius: 5px; */
 box-sizing: border-box;
 min-height: 60px;
 width:95%;

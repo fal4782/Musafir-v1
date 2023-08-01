@@ -11,8 +11,8 @@
 
             <div class="right-div">
                 <h1>Musafir</h1>
-                <input type="text" placeholder="Email" v-model="email"><br>
-                <input type="password" placeholder="Enter your Password" v-model="password"><br>
+                <input type="text" placeholder="Email" @input="hideErrorMessage" v-model="email"><br>
+                <input type="password" placeholder="Enter your Password" @input="hideErrorMessage" v-model="password"><br>
                 <button @click="onLoginClick">LOG IN</button>
                 <p id="error" v-if="showErrorMessage" class="error-message">Please fill in all required fields.</p>
                 <p>
@@ -49,6 +49,10 @@
         this.showErrorMessage = true;
         }
       },
+      hideErrorMessage() {
+      // Hide the error message when the user starts typing
+      this.showErrorMessage = false;
+    },
         async login(){
             console.log(this.email, this.password)
             let result =await axios.post("http://localhost:5000/login",{email:this.email, password:this.password})

@@ -179,7 +179,6 @@ export default {
   display: flex;
   border-radius: 15px;
   margin: auto;
-  /* margin: 0 10%; */
   align-items: center;
   margin-bottom: 50px;
   box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);

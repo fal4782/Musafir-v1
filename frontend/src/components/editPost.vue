@@ -154,7 +154,6 @@
         // Assuming "selectedFile" contains the file object
         console.log(formData)
         if (this.username == "Admin") {
-            console.log("Checkkkkkk", this.username);
             this.$router.push({
               name: 'postDetails'
             })
@@ -199,19 +198,18 @@
       this.username= JSON.parse(localStorage.getItem('user')).name
       console.log('username',this.username)
       },
-      created(){
+      created() {
         console.log(JSON.parse(this.$route.params.data))
-        this.posts=JSON.parse(this.$route.params.data)
-        this.city=this.posts.city
-      this.place=this.posts.place
-      this.state=this.posts.state_name
-      this.description=this.posts.description
-      this.value_for_money=this.posts.value_for_money
-      this.safety=this.posts.safety
-      this.overall_exp=this.posts.overall_exp
-      this.category=this.posts.category
-      this.post_id=this.posts.post_id
-
+        this.posts = JSON.parse(this.$route.params.data)
+        this.city = this.posts.city
+        this.place = this.posts.place
+        this.state = this.posts.state_name
+        this.description = this.posts.description
+        this.value_for_money = this.posts.value_for_money
+        this.safety = this.posts.safety
+        this.overall_exp = this.posts.overall_exp
+        this.category = this.posts.category
+        this.post_id = this.posts.post_id
       }
   }
   </script>
